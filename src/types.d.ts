@@ -4,6 +4,7 @@ export interface Survey {
   questions: Question[];
   createdAt: string;
   deletedAt?: string;
+  slug: string;
 }
 
 export interface Answer {
