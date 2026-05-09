@@ -3,11 +3,13 @@ import { prisma } from "../lib/prisma.js";
 import { json } from "../utils/json.js";
 import AppError from "../utils/appError.js";
 import catchAsync from "../utils/catchAsync.js";
+import type SurveyService from "../services/surveyService.js";
 
 export default class SurveyController {
+  constructor(private service: SurveyService) {}
   getAll = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
-      const surveys = await prisma.surveys.findMany();
+      const surveys = await this.service.getAll();
       res
         .type("json")
         .status(200)
@@ -21,23 +23,21 @@ export default class SurveyController {
     },
   );
 
-  getById = catchAsync(async (req, res, next) => {
-    const survey = await prisma.surveys.findUnique({
-      where: {
-        id: BigInt(req.params.surveyId as string),
-      },
-    });
-    if (!survey) {
-      throw new AppError(`Survey not found`, 404);
-    }
-    res
-      .type("json")
-      .status(200)
-      .send(
-        json({
-          status: "success",
-          data: survey,
-        }),
-      );
-  });
+  getBySlug = catchAsync(
+    async (req: Request, res: Response, next: NextFunction) => {
+      const survey = await this.service.getBySlug(req.params.slug as string);
+      if (!survey) {
+        throw new AppError(`Survey not found`, 404);
+      }
+      res
+        .type("json")
+        .status(200)
+        .send(
+          json({
+            status: "success",
+            data: survey,
+          }),
+        );
+    },
+  );
 }

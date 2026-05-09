@@ -685,7 +685,8 @@ export const SurveysScalarFieldEnum = {
   questions: 'questions',
   is_active: 'is_active',
   created_at: 'created_at',
-  deleted_at: 'deleted_at'
+  deleted_at: 'deleted_at',
+  slug: 'slug'
 } as const
 
 export type SurveysScalarFieldEnum = (typeof SurveysScalarFieldEnum)[keyof typeof SurveysScalarFieldEnum]

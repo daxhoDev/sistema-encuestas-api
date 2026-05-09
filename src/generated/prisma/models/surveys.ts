@@ -40,6 +40,7 @@ export type SurveysMinAggregateOutputType = {
   is_active: boolean | null
   created_at: Date | null
   deleted_at: Date | null
+  slug: string | null
 }
 
 export type SurveysMaxAggregateOutputType = {
@@ -48,6 +49,7 @@ export type SurveysMaxAggregateOutputType = {
   is_active: boolean | null
   created_at: Date | null
   deleted_at: Date | null
+  slug: string | null
 }
 
 export type SurveysCountAggregateOutputType = {
@@ -57,6 +59,7 @@ export type SurveysCountAggregateOutputType = {
   is_active: number
   created_at: number
   deleted_at: number
+  slug: number
   _all: number
 }
 
@@ -75,6 +78,7 @@ export type SurveysMinAggregateInputType = {
   is_active?: true
   created_at?: true
   deleted_at?: true
+  slug?: true
 }
 
 export type SurveysMaxAggregateInputType = {
@@ -83,6 +87,7 @@ export type SurveysMaxAggregateInputType = {
   is_active?: true
   created_at?: true
   deleted_at?: true
+  slug?: true
 }
 
 export type SurveysCountAggregateInputType = {
@@ -92,6 +97,7 @@ export type SurveysCountAggregateInputType = {
   is_active?: true
   created_at?: true
   deleted_at?: true
+  slug?: true
   _all?: true
 }
 
@@ -188,6 +194,7 @@ export type SurveysGroupByOutputType = {
   is_active: boolean
   created_at: Date | null
   deleted_at: Date | null
+  slug: string
   _count: SurveysCountAggregateOutputType | null
   _avg: SurveysAvgAggregateOutputType | null
   _sum: SurveysSumAggregateOutputType | null
@@ -220,6 +227,7 @@ export type surveysWhereInput = {
   is_active?: Prisma.BoolFilter<"surveys"> | boolean
   created_at?: Prisma.DateTimeNullableFilter<"surveys"> | Date | string | null
   deleted_at?: Prisma.DateTimeNullableFilter<"surveys"> | Date | string | null
+  slug?: Prisma.StringFilter<"surveys"> | string
   answers?: Prisma.AnswersListRelationFilter
 }
 
@@ -230,11 +238,13 @@ export type surveysOrderByWithRelationInput = {
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  slug?: Prisma.SortOrder
   answers?: Prisma.answersOrderByRelationAggregateInput
 }
 
 export type surveysWhereUniqueInput = Prisma.AtLeast<{
   id?: bigint | number
+  slug?: string
   AND?: Prisma.surveysWhereInput | Prisma.surveysWhereInput[]
   OR?: Prisma.surveysWhereInput[]
   NOT?: Prisma.surveysWhereInput | Prisma.surveysWhereInput[]
@@ -244,7 +254,7 @@ export type surveysWhereUniqueInput = Prisma.AtLeast<{
   created_at?: Prisma.DateTimeNullableFilter<"surveys"> | Date | string | null
   deleted_at?: Prisma.DateTimeNullableFilter<"surveys"> | Date | string | null
   answers?: Prisma.AnswersListRelationFilter
-}, "id">
+}, "id" | "slug">
 
 export type surveysOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -253,6 +263,7 @@ export type surveysOrderByWithAggregationInput = {
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  slug?: Prisma.SortOrder
   _count?: Prisma.surveysCountOrderByAggregateInput
   _avg?: Prisma.surveysAvgOrderByAggregateInput
   _max?: Prisma.surveysMaxOrderByAggregateInput
@@ -270,6 +281,7 @@ export type surveysScalarWhereWithAggregatesInput = {
   is_active?: Prisma.BoolWithAggregatesFilter<"surveys"> | boolean
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"surveys"> | Date | string | null
   deleted_at?: Prisma.DateTimeNullableWithAggregatesFilter<"surveys"> | Date | string | null
+  slug?: Prisma.StringWithAggregatesFilter<"surveys"> | string
 }
 
 export type surveysCreateInput = {
@@ -279,6 +291,7 @@ export type surveysCreateInput = {
   is_active?: boolean
   created_at?: Date | string | null
   deleted_at?: Date | string | null
+  slug: string
   answers?: Prisma.answersCreateNestedManyWithoutSurveysInput
 }
 
@@ -289,6 +302,7 @@ export type surveysUncheckedCreateInput = {
   is_active?: boolean
   created_at?: Date | string | null
   deleted_at?: Date | string | null
+  slug: string
   answers?: Prisma.answersUncheckedCreateNestedManyWithoutSurveysInput
 }
 
@@ -299,6 +313,7 @@ export type surveysUpdateInput = {
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   answers?: Prisma.answersUpdateManyWithoutSurveysNestedInput
 }
 
@@ -309,6 +324,7 @@ export type surveysUncheckedUpdateInput = {
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   answers?: Prisma.answersUncheckedUpdateManyWithoutSurveysNestedInput
 }
 
@@ -319,6 +335,7 @@ export type surveysCreateManyInput = {
   is_active?: boolean
   created_at?: Date | string | null
   deleted_at?: Date | string | null
+  slug: string
 }
 
 export type surveysUpdateManyMutationInput = {
@@ -328,6 +345,7 @@ export type surveysUpdateManyMutationInput = {
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type surveysUncheckedUpdateManyInput = {
@@ -337,6 +355,7 @@ export type surveysUncheckedUpdateManyInput = {
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type SurveysNullableScalarRelationFilter = {
@@ -351,6 +370,7 @@ export type surveysCountOrderByAggregateInput = {
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
 }
 
 export type surveysAvgOrderByAggregateInput = {
@@ -363,6 +383,7 @@ export type surveysMaxOrderByAggregateInput = {
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
 }
 
 export type surveysMinOrderByAggregateInput = {
@@ -371,6 +392,7 @@ export type surveysMinOrderByAggregateInput = {
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
 }
 
 export type surveysSumOrderByAggregateInput = {
@@ -404,6 +426,7 @@ export type surveysCreateWithoutAnswersInput = {
   is_active?: boolean
   created_at?: Date | string | null
   deleted_at?: Date | string | null
+  slug: string
 }
 
 export type surveysUncheckedCreateWithoutAnswersInput = {
@@ -413,6 +436,7 @@ export type surveysUncheckedCreateWithoutAnswersInput = {
   is_active?: boolean
   created_at?: Date | string | null
   deleted_at?: Date | string | null
+  slug: string
 }
 
 export type surveysCreateOrConnectWithoutAnswersInput = {
@@ -438,6 +462,7 @@ export type surveysUpdateWithoutAnswersInput = {
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type surveysUncheckedUpdateWithoutAnswersInput = {
@@ -447,6 +472,7 @@ export type surveysUncheckedUpdateWithoutAnswersInput = {
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 
@@ -487,6 +513,7 @@ export type surveysSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   is_active?: boolean
   created_at?: boolean
   deleted_at?: boolean
+  slug?: boolean
   answers?: boolean | Prisma.surveys$answersArgs<ExtArgs>
   _count?: boolean | Prisma.SurveysCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["surveys"]>
@@ -498,6 +525,7 @@ export type surveysSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   is_active?: boolean
   created_at?: boolean
   deleted_at?: boolean
+  slug?: boolean
 }, ExtArgs["result"]["surveys"]>
 
 export type surveysSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -507,6 +535,7 @@ export type surveysSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   is_active?: boolean
   created_at?: boolean
   deleted_at?: boolean
+  slug?: boolean
 }, ExtArgs["result"]["surveys"]>
 
 export type surveysSelectScalar = {
@@ -516,9 +545,10 @@ export type surveysSelectScalar = {
   is_active?: boolean
   created_at?: boolean
   deleted_at?: boolean
+  slug?: boolean
 }
 
-export type surveysOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "questions" | "is_active" | "created_at" | "deleted_at", ExtArgs["result"]["surveys"]>
+export type surveysOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "questions" | "is_active" | "created_at" | "deleted_at" | "slug", ExtArgs["result"]["surveys"]>
 export type surveysInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   answers?: boolean | Prisma.surveys$answersArgs<ExtArgs>
   _count?: boolean | Prisma.SurveysCountOutputTypeDefaultArgs<ExtArgs>
@@ -538,6 +568,7 @@ export type $surveysPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     is_active: boolean
     created_at: Date | null
     deleted_at: Date | null
+    slug: string
   }, ExtArgs["result"]["surveys"]>
   composites: {}
 }
@@ -968,6 +999,7 @@ export interface surveysFieldRefs {
   readonly is_active: Prisma.FieldRef<"surveys", 'Boolean'>
   readonly created_at: Prisma.FieldRef<"surveys", 'DateTime'>
   readonly deleted_at: Prisma.FieldRef<"surveys", 'DateTime'>
+  readonly slug: Prisma.FieldRef<"surveys", 'String'>
 }
     
 

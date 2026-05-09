@@ -24,6 +24,7 @@ model surveys {
   is_active  Boolean   @default(false)
   created_at DateTime? @default(now()) @db.Timestamptz(6)
   deleted_at DateTime? @db.Timestamptz(6)
+  slug       String    @unique(map: "is_unique")
   answers    answers[]
 }
 
