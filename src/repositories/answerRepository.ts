@@ -1,3 +1,4 @@
+import type { answersCreateInput } from "../generated/prisma/models.js";
 import { prisma } from "../lib/prisma.js";
 
 export default class AnswerRepository {
@@ -9,5 +10,7 @@ export default class AnswerRepository {
         },
       },
     });
-  // await prisma.$queryRaw`SELECT survey_id, name, questions, responses FROM answers JOIN surveys ON answers.survey_id = surveys.id WHERE slug = ${surveySlug}`;
+
+  createOne = async (answer: answersCreateInput) =>
+    await prisma.answers.create({ data: answer });
 }

@@ -26,7 +26,7 @@ export const createSurveySchema = z.object({
             )
             .nonempty(`An options array can't be empty`)
             .optional(),
-          isRequired: z.boolean("isRequired must me a boolean").default(false),
+          is_required: z.boolean("isRequired must me a boolean").default(false),
         },
         "Each question must be an object",
       )

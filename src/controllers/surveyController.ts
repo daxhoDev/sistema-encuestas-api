@@ -59,7 +59,7 @@ export default class SurveyController {
         throw new AppError(`Survey name not avaliable`, 400);
       }
 
-      const serializedData = { ...z.parse(createSurveySchema, survey), slug };
+      const serializedData = { ...result.data, slug };
 
       const data = await this.service.createOne(serializedData);
 
