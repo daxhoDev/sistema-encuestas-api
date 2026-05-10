@@ -12,7 +12,7 @@ const surveyController = new SurveyController(surveyService);
 
 router.use("/:surveyId/answers", answerRouter);
 
-router.route("/").get(surveyController.getAll);
+router.route("/").get(surveyController.getAll).post(surveyController.createOne);
 router.route("/:slug/").get(surveyController.getBySlug);
 
 export default router;
