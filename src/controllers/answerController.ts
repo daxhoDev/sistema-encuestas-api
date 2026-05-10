@@ -31,9 +31,9 @@ export default class AnswerController {
 
       //TODO: Obtener el survey y validar responses
 
-      const serializedData = z.parse(createAnswerSchema, rawData);
+      const serializedData = z.safeParse(createAnswerSchema, rawData);
 
-      const data = await this.service.createOne(req.body);
+      // const data = await this.service.createOne(serializedData);
     },
   );
 }
