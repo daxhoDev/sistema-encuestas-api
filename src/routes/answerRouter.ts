@@ -8,6 +8,9 @@ const answerRepository = new AnswerRepository();
 const answerService = new AnswerService(answerRepository);
 const answerController = new AnswerController(answerService);
 
-router.route("/").get(answerController.getAllFromSurvey);
+router
+  .route("/")
+  .get(answerController.getAllFromSurvey)
+  .post(answerController.createOne);
 
 export default router;

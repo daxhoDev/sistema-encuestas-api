@@ -1,7 +1,8 @@
 import type { answersCreateInput } from "../generated/prisma/models.js";
 import { prisma } from "../lib/prisma.js";
+import type { IAnswerRepository } from "../types.js";
 
-export default class AnswerRepository {
+export default class AnswerRepository implements IAnswerRepository {
   getAllFromSurvey = async (surveySlug: string) =>
     await prisma.answers.findMany({
       where: {

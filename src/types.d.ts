@@ -1,3 +1,18 @@
+export interface ISurveyRepository {
+  getAll: () => Promise<any[]>;
+  getBySlug: (slug: string) => Promise<any>;
+  createOne: (survey: any) => Promise<any>;
+}
+
+export interface ISurveyService extends ISurveyRepository {}
+
+export interface IAnswerRepository {
+  getAllFromSurvey: (slug: string) => Promise<any[]>;
+  createOne: (answer: any) => Promise<any>;
+}
+
+export interface IAnswerService extends IAnswerRepository {}
+
 export interface Survey {
   id: number;
   name: string;
