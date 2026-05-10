@@ -12,6 +12,13 @@ export default class AnswerRepository implements IAnswerRepository {
       },
     });
 
+  getById = async (id: number) =>
+    await prisma.answers.findUnique({
+      where: {
+        id,
+      },
+    });
+
   createOne = async (answer: answersCreateInput) =>
     await prisma.answers.create({ data: answer });
 }

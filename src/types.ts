@@ -3,7 +3,6 @@ export interface ISurveyRepository {
   getBySlug: (slug: string) => Promise<any>;
   createOne: (survey: any) => Promise<any>;
 }
-
 export interface ISurveyService extends ISurveyRepository {}
 
 export interface IAnswerRepository {
@@ -11,7 +10,10 @@ export interface IAnswerRepository {
   createOne: (answer: any) => Promise<any>;
 }
 
-export interface IAnswerService extends IAnswerRepository {}
+//TODO: fix inheritance
+export interface IAnswerService extends IAnswerRepository {
+  createOne: (answer: any, slug: string) => Promise<any>;
+}
 
 export interface Survey {
   id: number;
@@ -43,7 +45,7 @@ export interface Question {
   isRequired?: boolean;
 }
 
-enum QuestionType {
+export enum QuestionType {
   multiSelect = "MULTI_SELECT",
   singleSelect = "SINGLE_SELECT",
   textAnser = "TEXT_ANSWER",
@@ -51,5 +53,5 @@ enum QuestionType {
 
 export interface Response {
   id: number;
-  response: string;
+  content: string;
 }

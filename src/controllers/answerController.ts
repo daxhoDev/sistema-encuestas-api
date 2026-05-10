@@ -22,7 +22,10 @@ export default class AnswerController {
 
   createOne = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
-      const createdAnswer = await this.service.createOne(req.body);
+      const createdAnswer = await this.service.createOne(
+        req.body,
+        req.params.slug as string,
+      );
       res
         .status(200)
         .type("json")
