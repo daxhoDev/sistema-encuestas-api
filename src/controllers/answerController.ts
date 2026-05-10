@@ -2,13 +2,16 @@ import type { NextFunction, Request, Response } from "express";
 import catchAsync from "../utils/catchAsync.js";
 import { prisma } from "../lib/prisma.js";
 import { json } from "../utils/json.js";
+import type AnswerService from "../services/answerService.js";
 
 export default class AnswerController {
-  getAll = catchAsync(
+  constructor(private answerService: AnswerService) {}
+
+  getAllFromSurvey = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
-      const answers = await prisma.answers.findMany({
-        where: { survey_id: Number(req.params.surveyId) },
-      });
+      const answers = await this.answerService.getAllFromSurvey(
+        req.params.slug as string,
+      );
       res
         .status(200)
         .type("json")
@@ -16,5 +19,9 @@ export default class AnswerController {
           json({ status: "success", results: answers.length, data: answers }),
         );
     },
+  );
+
+  createOne = catchAsync(
+    async (req: Request, res: Response, next: NextFunction) => {},
   );
 }
