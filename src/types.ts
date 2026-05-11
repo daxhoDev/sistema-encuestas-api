@@ -11,7 +11,7 @@ export interface IAnswerRepository {
 }
 
 //TODO: fix inheritance
-export interface IAnswerService extends IAnswerRepository {
+export interface IAnswerService extends Omit<IAnswerRepository, "createOne"> {
   createOne: (answer: any, slug: string) => Promise<any>;
 }
 

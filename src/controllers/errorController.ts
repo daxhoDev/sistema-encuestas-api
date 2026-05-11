@@ -18,9 +18,11 @@ export class ErrorController {
   ) => {
     err.statusCode = err.statusCode || 500;
     err.status = err.status || "error";
+
     if (err instanceof ZodError) {
       err = this.handleZodError(err);
     }
+
     if (process.env.NODE_ENV === "development") {
       this.sendErrorDev(err, res);
     } else if (process.env.NODE_ENV === "production") {
@@ -29,7 +31,6 @@ export class ErrorController {
   };
 
   sendErrorDev = (err: AppError, res: Response) => {
-    console.log(err instanceof AppError);
     res.status(err.statusCode).json({
       status: err.status,
       message: err.message,

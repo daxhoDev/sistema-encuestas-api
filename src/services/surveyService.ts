@@ -11,6 +11,7 @@ export default class SurveyService implements ISurveyService {
   getAll = async () => await this.repo.getAll();
 
   getBySlug = async (slug: string) => {
+    throw new AppError("awa", 400);
     const survey = await this.repo.getBySlug(slug);
     if (!survey) {
       throw new AppError(`Survey not found`, 404);

@@ -21,16 +21,18 @@ export default class AnswerService implements IAnswerService {
     await this.answerRepo.getAllFromSurvey(surveySlug);
 
   createOne = async (answer: answersCreateInput, slug: string) => {
-    // 1) Validar la integridad de los datos
+    const referencedSurvey = await this.surveyRepo.getBySlug(slug);
+
+    // Validar el schema
     const {
       success,
       error,
       data: serializedData,
-    } = z.safeParse(createAnswerSchema, answer);
+    } = z.safeParse(createAnswerSchema, {
+      ...answer,
+      survey_id: referencedSurvey.id,
+    });
     if (!success) throw error;
-
-    // 2) Validar la correlación con surveys
-    const referencedSurvey = await this.surveyRepo.getBySlug(slug);
 
     const responses: Response[] = serializedData.responses;
     const questions: Question[] = referencedSurvey.questions;
@@ -44,11 +46,18 @@ export default class AnswerService implements IAnswerService {
 
     //TODO: fix comparison
     if (
-      responses.map((r: Response) => r.id) !==
-      questions.map((q: Question) => q.id)
+      !responses
+        .map((response: Response) => response.id)
+        .every((responseId) =>
+          questions.map((question) => question.id).includes(responseId),
+        )
     ) {
       console.log(
-        responses.map((r) => r.id) !== questions.map((q: Question) => q.id),
+        responses
+          .map((response: Response) => response.id)
+          .every((responseId) =>
+            questions.map((question) => question.id).includes(responseId),
+          ),
       );
       throw new AppError(
         "Los ids de las respuestas deben corresponderse con los de las preguntas",
