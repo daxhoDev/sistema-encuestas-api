@@ -1,5 +1,5 @@
 export interface ISurveyRepository {
-  getAll: (status?: boolean) => Promise<any[]>;
+  getAll: (search?: string, active?: boolean, date?: string) => Promise<any[]>;
   getBySlug: (slug: string) => Promise<any>;
   createOne: (survey: any) => Promise<any>;
 }

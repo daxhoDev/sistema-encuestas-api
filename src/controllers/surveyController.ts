@@ -6,11 +6,15 @@ export default class SurveyController {
   constructor(private service: ISurveyService) {}
 
   getAll = async (req: Request, res: Response, next: NextFunction) => {
-    const { active } = req.query;
-    const status =
+    const { search, active, date } = req.query;
+    const activeBool =
       active === "true" ? true : active === "false" ? false : undefined;
 
-    const surveys = await this.service.getAll(status);
+    const surveys = await this.service.getAll(
+      search as string,
+      activeBool as boolean,
+      date as string,
+    );
     res
       .type("json")
       .status(200)

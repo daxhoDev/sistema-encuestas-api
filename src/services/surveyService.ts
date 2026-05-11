@@ -8,7 +8,8 @@ import slugify from "slugify";
 export default class SurveyService implements ISurveyService {
   constructor(private repo: ISurveyRepository) {}
 
-  getAll = async (status?: boolean) => await this.repo.getAll(status);
+  getAll: ISurveyService["getAll"] = async (search, active, date) =>
+    await this.repo.getAll(search, active, date);
 
   getBySlug = async (slug: string) => {
     const survey = await this.repo.getBySlug(slug);
