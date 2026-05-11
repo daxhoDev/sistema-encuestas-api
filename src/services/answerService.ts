@@ -30,7 +30,7 @@ export default class AnswerService implements IAnswerService {
       data: serializedData,
     } = z.safeParse(createAnswerSchema, {
       ...answer,
-      survey_id: referencedSurvey.id,
+      survey_id: Number(referencedSurvey.id),
     });
     if (!success) throw error;
 
@@ -44,21 +44,12 @@ export default class AnswerService implements IAnswerService {
       );
     }
 
-    //TODO: fix comparison
     if (
-      !responses
-        .map((response: Response) => response.id)
-        .every((responseId) =>
-          questions.map((question) => question.id).includes(responseId),
-        )
+      !(
+        JSON.stringify(responses.map((r) => r.id)) ===
+        JSON.stringify(questions.map((q) => q.id))
+      )
     ) {
-      console.log(
-        responses
-          .map((response: Response) => response.id)
-          .every((responseId) =>
-            questions.map((question) => question.id).includes(responseId),
-          ),
-      );
       throw new AppError(
         "Los ids de las respuestas deben corresponderse con los de las preguntas",
         400,
