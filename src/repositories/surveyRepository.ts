@@ -3,7 +3,10 @@ import { prisma } from "../lib/prisma.js";
 import type { ISurveyRepository } from "../types.js";
 
 export default class SurveyRepository implements ISurveyRepository {
-  getAll = async () => await prisma.surveys.findMany();
+  getAll: ISurveyRepository["getAll"] = async (status) =>
+    await prisma.surveys.findMany({
+      where: status !== undefined ? { is_active: status } : {},
+    });
 
   getBySlug = async (slug: string) =>
     await prisma.surveys.findFirst({ where: { slug } });
