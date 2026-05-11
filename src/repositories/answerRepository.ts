@@ -17,6 +17,14 @@ export default class AnswerRepository implements IAnswerRepository {
       where: {
         id,
       },
+      include: {
+        surveys: {
+          select: {
+            name: true,
+            questions: true,
+          },
+        },
+      },
     });
 
   createOne = async (answer: answersCreateInput) =>

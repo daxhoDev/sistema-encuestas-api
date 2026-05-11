@@ -15,4 +15,6 @@ router
   .get(answerController.getAllFromSurvey)
   .post(answerController.createOne);
 
+router.route("/:id").get(answerController.getById);
+
 export default router;

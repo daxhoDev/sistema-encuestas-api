@@ -7,10 +7,10 @@ export interface ISurveyService extends ISurveyRepository {}
 
 export interface IAnswerRepository {
   getAllFromSurvey: (slug: string) => Promise<any[]>;
+  getById: (id: number) => Promise<any>;
   createOne: (answer: any) => Promise<any>;
 }
 
-//TODO: fix inheritance
 export interface IAnswerService extends Omit<IAnswerRepository, "createOne"> {
   createOne: (answer: any, slug: string) => Promise<any>;
 }

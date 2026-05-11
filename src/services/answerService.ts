@@ -20,6 +20,8 @@ export default class AnswerService implements IAnswerService {
   getAllFromSurvey = async (surveySlug: string) =>
     await this.answerRepo.getAllFromSurvey(surveySlug);
 
+  getById = async (id: number) => await this.answerRepo.getById(id);
+
   createOne = async (answer: answersCreateInput, slug: string) => {
     const referencedSurvey = await this.surveyRepo.getBySlug(slug);
 
@@ -57,7 +59,7 @@ export default class AnswerService implements IAnswerService {
     }
 
     if (
-      responses.reduce((acc, response, i) => {
+      !responses.reduce((acc, response, i) => {
         if (
           questions[i]?.type === QuestionType.multiSelect ||
           questions[i]?.type === QuestionType.singleSelect
@@ -66,7 +68,7 @@ export default class AnswerService implements IAnswerService {
             (acc && questions[i].options?.includes(response.content)) || false
           );
         }
-        return acc && true;
+        return acc;
       }, true)
     ) {
       throw new AppError(
