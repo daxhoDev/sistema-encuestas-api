@@ -1,5 +1,9 @@
+import type z from "zod";
+import type { queryStringSchema } from "./schemas/queryStringsSchema.js";
+import type { Request } from "express";
+
 export interface ISurveyRepository {
-  getAll: (search?: string, active?: boolean, date?: string) => Promise<any[]>;
+  getAll: (search?: string, active?: boolean, date?: Date) => Promise<any[]>;
   getBySlug: (slug: string) => Promise<any>;
   createOne: (survey: any) => Promise<any>;
 }
@@ -54,4 +58,10 @@ export enum QuestionType {
 export interface Response {
   id: number;
   content: string;
+}
+
+export type QueryString = z.infer<typeof queryStringSchema>;
+
+export interface QueryStringRequest extends Request {
+  data?: QueryString;
 }

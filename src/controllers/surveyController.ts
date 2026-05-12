@@ -1,19 +1,27 @@
 import type { NextFunction, Request, Response } from "express";
 import { json } from "../utils/json.js";
-import type { ISurveyService } from "../types.js";
+import type {
+  ISurveyService,
+  QueryString,
+  QueryStringRequest,
+} from "../types.js";
+import { date } from "zod";
 
 export default class SurveyController {
   constructor(private service: ISurveyService) {}
 
-  getAll = async (req: Request, res: Response, next: NextFunction) => {
-    const { search, active, date } = req.query;
-    const activeBool =
-      active === "true" ? true : active === "false" ? false : undefined;
+  getAll = async (
+    req: QueryStringRequest,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    const queryData = req.data;
+    console.log(req.data);
 
     const surveys = await this.service.getAll(
-      search as string,
-      activeBool as boolean,
-      date as string,
+      queryData?.search,
+      queryData?.active,
+      queryData?.date,
     );
     res
       .type("json")

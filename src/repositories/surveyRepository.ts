@@ -31,9 +31,9 @@ export default class SurveyRepository implements ISurveyRepository {
     return await prisma.surveys.findMany({ where });
   };
 
-  getBySlug = async (slug: string) =>
+  getBySlug: ISurveyRepository["getBySlug"] = async (slug) =>
     await prisma.surveys.findFirst({ where: { slug } });
 
-  createOne = async (survey: surveysCreateInput) =>
+  createOne: ISurveyRepository["createOne"] = async (survey) =>
     await prisma.surveys.create({ data: survey });
 }
