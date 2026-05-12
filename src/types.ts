@@ -63,5 +63,5 @@ export interface Response {
 export type QueryString = z.infer<typeof queryStringSchema>;
 
 export interface QueryStringRequest extends Request {
-  data?: QueryString;
+  queryData?: QueryString;
 }

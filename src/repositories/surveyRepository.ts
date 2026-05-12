@@ -18,7 +18,7 @@ export default class SurveyRepository implements ISurveyRepository {
     }
 
     if (date) {
-      const start = new Date(date);
+      const start = date;
       const end = new Date(date);
       end.setDate(end.getDate() + 1);
 

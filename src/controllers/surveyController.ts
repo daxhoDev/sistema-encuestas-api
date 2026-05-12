@@ -15,8 +15,8 @@ export default class SurveyController {
     res: Response,
     next: NextFunction,
   ) => {
-    const queryData = req.data;
-    console.log(req.data);
+    const queryData = req.queryData;
+    console.log(req.queryData);
 
     const surveys = await this.service.getAll(
       queryData?.search,
