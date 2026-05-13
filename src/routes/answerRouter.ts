@@ -15,6 +15,9 @@ router
   .get(answerController.getAllFromSurvey)
   .post(answerController.createOne);
 
-router.route("/:id").get(answerController.getById);
+router
+  .route("/:id")
+  .get(answerController.getById)
+  .delete(answerController.deleteById);
 
 export default router;
