@@ -25,7 +25,6 @@ export default class AnswerService implements IAnswerService {
   createOne = async (answer: answersCreateInput, slug: string) => {
     const referencedSurvey = await this.surveyRepo.getBySlug(slug);
 
-    // Validar el schema
     const {
       success,
       error,
@@ -39,14 +38,12 @@ export default class AnswerService implements IAnswerService {
     const responses: Response[] = serializedData.responses;
     const questions: Question[] = referencedSurvey.questions;
 
-    if (responses.length !== questions.length) {
-      throw new AppError(
-        "Debe haber una respuesta para cada pregunta de la encuesta",
-        400,
-      );
+    if (responses.length !== questions.filter((q) => q.is_required).length) {
+      throw new AppError("For each question there must be a response", 400);
     }
 
     if (
+      // TODO: Adapt condition to handle unrequired responses
       !(
         JSON.stringify(responses.map((r) => r.id)) ===
         JSON.stringify(questions.map((q) => q.id))
@@ -56,6 +53,7 @@ export default class AnswerService implements IAnswerService {
     }
 
     if (
+      // TODO: Adapt condition to handle unrequired responses
       !responses.reduce((acc, response, i) => {
         if (
           questions[i]?.type === QuestionType.multiSelect ||
@@ -69,7 +67,7 @@ export default class AnswerService implements IAnswerService {
       }, true)
     ) {
       throw new AppError(
-        "Las respuestas de las preguntas de selección deben ser una de las opciones provistas en la pregunta",
+        "Selectable responses must be one of the options provided",
         400,
       );
     }

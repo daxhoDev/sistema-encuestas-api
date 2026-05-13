@@ -10,6 +10,9 @@ export const createSurveySchema = z.object({
       z
         .object(
           {
+            id: z
+              .number("question.id must be an integer")
+              .min(1, "question.id must be greater than 0"),
             name: z
               .string("Question name must be a string")
               .nonempty("Question can't be empty")
@@ -27,9 +30,7 @@ export const createSurveySchema = z.object({
               )
               .nonempty(`An options array can't be empty`)
               .optional(),
-            is_required: z
-              .boolean("isRequired must me a boolean")
-              .default(false),
+            is_required: z.boolean("is_required must be a boolean"),
           },
           "Each question must be an object",
         )

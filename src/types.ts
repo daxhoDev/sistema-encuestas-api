@@ -48,7 +48,7 @@ export interface Question {
   name: string;
   type: QuestionType;
   options?: string[];
-  isRequired?: boolean;
+  is_required?: boolean;
 }
 
 export enum QuestionType {
