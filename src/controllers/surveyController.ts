@@ -60,4 +60,19 @@ export default class SurveyController {
         }),
       );
   };
+
+  deleteOneBySlug = async (req: Request, res: Response) => {
+    const slug = req.params.slug as string;
+    await this.service.deleteOneBySlug(slug);
+
+    res
+      .type("json")
+      .status(200)
+      .send(
+        json({
+          status: "success",
+          data: [],
+        }),
+      );
+  };
 }

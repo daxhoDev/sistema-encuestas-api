@@ -1,10 +1,13 @@
+import { primaryKey } from "drizzle-orm/gel-core";
 import type { surveysCreateInput } from "../generated/prisma/models.js";
 import { prisma } from "../lib/prisma.js";
 import type { ISurveyRepository } from "../types.js";
 
 export default class SurveyRepository implements ISurveyRepository {
   getAll: ISurveyRepository["getAll"] = async (search, active, date) => {
-    const where: any = {};
+    const where: any = {
+      deleted_at: null,
+    };
 
     if (search) {
       where.name = {
@@ -32,8 +35,16 @@ export default class SurveyRepository implements ISurveyRepository {
   };
 
   getBySlug: ISurveyRepository["getBySlug"] = async (slug) =>
-    await prisma.surveys.findFirst({ where: { slug } });
+    await prisma.surveys.findFirst({ where: { slug, deleted_at: null } });
 
   createOne: ISurveyRepository["createOne"] = async (survey) =>
     await prisma.surveys.create({ data: survey });
+
+  deleteOneBySlug: ISurveyRepository["deleteOneBySlug"] = async (slug) =>
+    await prisma.surveys.update({
+      where: { slug },
+      data: {
+        deleted_at: new Date(),
+      },
+    });
 }

@@ -6,6 +6,7 @@ export interface ISurveyRepository {
   getAll: (search?: string, active?: boolean, date?: Date) => Promise<any[]>;
   getBySlug: (slug: string) => Promise<any>;
   createOne: (survey: any) => Promise<any>;
+  deleteOneBySlug: (slug: string) => Promise<any>;
 }
 export interface ISurveyService extends ISurveyRepository {}
 

@@ -19,6 +19,10 @@ router
   .route("/")
   .get(urlController.validateQueryStrings, surveyController.getAll)
   .post(surveyController.createOne);
-router.route("/:slug/").get(surveyController.getBySlug);
+
+router
+  .route("/:slug/")
+  .get(surveyController.getBySlug)
+  .delete(surveyController.deleteOneBySlug);
 
 export default router;

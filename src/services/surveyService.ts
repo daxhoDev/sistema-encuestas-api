@@ -33,4 +33,7 @@ export default class SurveyService implements ISurveyService {
     const serializedData = { ...result.data, slug };
     await this.repo.createOne(serializedData);
   };
+
+  deleteOneBySlug: ISurveyService["deleteOneBySlug"] = async (slug) =>
+    await this.repo.deleteOneBySlug(slug);
 }

@@ -9,6 +9,7 @@ export default class AnswerRepository implements IAnswerRepository {
         surveys: {
           slug: surveySlug,
         },
+        deleted_at: null
       },
     });
 
@@ -16,6 +17,7 @@ export default class AnswerRepository implements IAnswerRepository {
     await prisma.answers.findUnique({
       where: {
         id,
+        deleted_at: null
       },
       include: {
         surveys: {
