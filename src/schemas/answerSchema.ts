@@ -2,19 +2,18 @@ import z from "zod";
 
 export const createAnswerSchema = z.strictObject(
   {
-    survey_id: z.number("survey_id debe ser un número entero"),
+    survey_id: z.number("survey_id must be an integer"),
     responses: z.array(
-      z.object({
-        id: z.number("Los id de las respuestas deben ser números enteros"),
-        content: z.string("El contenido de cada respuesta debe ser un string"),
-      }),
-      "responses debe ser un array",
+      z.object(
+        {
+          id: z.number("Each response.id must be an integer"),
+          content: z.string("Each response.content must be a string"),
+        },
+        "Each response must be an object",
+      ),
+      "responses must be an array",
     ),
-    origin_ip: z
-      .string("origin_ip debe ser un string")
-      .min(5, "origin_ip demasiado corto"),
+    origin_ip: z.ipv4("origin_ip must be a valid IP address"),
   },
-  {
-    error: "Respuesta inválida",
-  },
+  "Invalid answer",
 );

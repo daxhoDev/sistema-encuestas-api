@@ -52,10 +52,7 @@ export default class AnswerService implements IAnswerService {
         JSON.stringify(questions.map((q) => q.id))
       )
     ) {
-      throw new AppError(
-        "Los ids de las respuestas deben corresponderse con los de las preguntas",
-        400,
-      );
+      throw new AppError("Each responses ID must match a question ID", 400);
     }
 
     if (
@@ -78,5 +75,9 @@ export default class AnswerService implements IAnswerService {
     }
 
     return await this.answerRepo.createOne(serializedData);
+  };
+
+  deleteById: IAnswerService["deleteById"] = async (id) => {
+    await this.answerRepo.deleteById(id);
   };
 }

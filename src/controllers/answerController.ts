@@ -42,4 +42,19 @@ export default class AnswerController {
         }),
       );
   };
+
+  deleteById = async (req: Request, res: Response) => {
+    const id = Number(req.params.id);
+    await this.service.deleteById(id);
+
+    res
+      .type("json")
+      .status(200)
+      .send(
+        json({
+          status: "success",
+          data: [],
+        }),
+      );
+  };
 }

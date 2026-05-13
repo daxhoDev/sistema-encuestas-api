@@ -14,6 +14,7 @@ export interface IAnswerRepository {
   getAllFromSurvey: (slug: string) => Promise<any[]>;
   getById: (id: number) => Promise<any>;
   createOne: (answer: any) => Promise<any>;
+  deleteById: (id: number) => Promise<any>;
 }
 
 export interface IAnswerService extends Omit<IAnswerRepository, "createOne"> {
