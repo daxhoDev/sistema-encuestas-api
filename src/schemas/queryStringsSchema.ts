@@ -21,8 +21,20 @@ export const queryStringSchema = z.strictObject(
       })
       .optional(),
     page: z
-      .int("Query string 'page' must be an integer")
-      .min(1, "Query string 'page' must be a positive number")
+      .string()
+      .refine(
+        (value) => Number(value) > 0,
+        "Query string 'page' must ve a positive integer",
+      )
+      .transform((value) => Number(value))
+      .optional(),
+    limit: z
+      .string()
+      .refine(
+        (value) => Number(value) > 0,
+        "Query string 'limit' must ve a positive integer",
+      )
+      .transform((value) => Number(value))
       .optional(),
   },
   "Allowed queries at url: 'active', 'date', 'search' and 'page'",

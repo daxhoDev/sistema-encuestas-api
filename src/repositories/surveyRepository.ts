@@ -3,11 +3,15 @@ import { prisma } from "../lib/prisma.js";
 import type { ISurveyRepository } from "../types.js";
 
 export default class SurveyRepository implements ISurveyRepository {
+  defaultTake = 10;
+  defaultSkip = 0;
+
   getAll: ISurveyRepository["getAll"] = async ({
     search,
     active,
     date,
     page,
+    limit,
   }) => {
     const where: any = {
       deleted_at: null,
@@ -35,7 +39,11 @@ export default class SurveyRepository implements ISurveyRepository {
       };
     }
 
-    return await prisma.surveys.findMany({ where });
+    return await prisma.surveys.findMany({
+      where,
+      take: limit ? limit : this.defaultTake,
+      skip: page ? (page - 1) * this.defaultTake : this.defaultSkip,
+    });
   };
 
   getBySlug: ISurveyRepository["getBySlug"] = async (slug) =>
