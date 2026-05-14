@@ -1,25 +1,30 @@
 import z from "zod";
 import type { surveysCreateInput } from "../generated/prisma/models.js";
 import { createSurveySchema } from "../schemas/surveySchema.js";
-import type { ISurveyRepository, ISurveyService } from "../types.js";
+import type {
+  ISurveyRepository,
+  ISurveyService,
+  QueryString,
+} from "../types.js";
 import AppError from "../utils/appError.js";
 import slugify from "slugify";
 
 export default class SurveyService implements ISurveyService {
   constructor(private repo: ISurveyRepository) {}
 
-  getAll: ISurveyService["getAll"] = async (queries) =>
-    await this.repo.getAll(queries);
+  async getAll(queries: QueryString) {
+    return await this.repo.getAll(queries);
+  }
 
-  getBySlug = async (slug: string) => {
+  async getBySlug(slug: string) {
     const survey = await this.repo.getBySlug(slug);
     if (!survey) {
       throw new AppError(`Survey not found`, 404);
     }
     return survey;
-  };
+  }
 
-  createOne = async (survey: surveysCreateInput) => {
+  async createOne(survey: surveysCreateInput) {
     const result = z.safeParse(createSurveySchema, survey);
     if (!result.success) throw result.error;
 
@@ -32,7 +37,7 @@ export default class SurveyService implements ISurveyService {
 
     const serializedData = { ...result.data, slug };
     await this.repo.createOne(serializedData);
-  };
+  }
 
   deleteOneBySlug: ISurveyService["deleteOneBySlug"] = async (slug) =>
     await this.repo.deleteOneBySlug(slug);

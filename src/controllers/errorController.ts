@@ -3,12 +3,12 @@ import AppError from "../utils/appError.js";
 import { ZodError } from "zod";
 
 export class ErrorController {
-  handleZodError = (err: ZodError) => {
+  handleZodError(err: ZodError) {
     const message = Array.from(new Set(err.issues.map((i) => i.message))).join(
       ". ",
     );
     return new AppError(message, 400);
-  };
+  }
 
   globalErrorHandler = (
     err: any,
@@ -30,16 +30,16 @@ export class ErrorController {
     }
   };
 
-  sendErrorDev = (err: AppError, res: Response) => {
+  sendErrorDev(err: AppError, res: Response) {
     res.status(err.statusCode).json({
       status: err.status,
       message: err.message,
       error: err,
       stack: err.stack,
     });
-  };
+  }
 
-  sendErrorProd = (err: AppError, res: Response) => {
+  sendErrorProd(err: AppError, res: Response) {
     if (err.isOperational) {
       res.status(err.statusCode).json({
         status: err.status,
@@ -51,5 +51,5 @@ export class ErrorController {
       status: "error",
       message: "Something went very wrong",
     });
-  };
+  }
 }

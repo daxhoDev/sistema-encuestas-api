@@ -3,10 +3,8 @@ import { prisma } from "../lib/prisma.js";
 import type { IAnswerRepository } from "../types.js";
 
 export default class AnswerRepository implements IAnswerRepository {
-  getAllFromSurvey: IAnswerRepository["getAllFromSurvey"] = async (
-    surveySlug,
-  ) =>
-    await prisma.answers.findMany({
+  async getAllFromSurvey(surveySlug: string) {
+    return await prisma.answers.findMany({
       where: {
         surveys: {
           slug: surveySlug,
@@ -14,9 +12,10 @@ export default class AnswerRepository implements IAnswerRepository {
         deleted_at: null,
       },
     });
+  }
 
-  getById: IAnswerRepository["getById"] = async (id) =>
-    await prisma.answers.findUnique({
+  async getById(id: number) {
+    return await prisma.answers.findUnique({
       where: {
         id,
         deleted_at: null,
@@ -30,12 +29,14 @@ export default class AnswerRepository implements IAnswerRepository {
         },
       },
     });
+  }
 
-  createOne: IAnswerRepository["createOne"] = async (answer) =>
+  async createOne(answer: any) {
     await prisma.answers.create({ data: answer });
+  }
 
-  deleteById: IAnswerRepository["deleteById"] = async (id) =>
-    await prisma.answers.update({
+  async deleteById(id: number) {
+    return await prisma.answers.update({
       where: {
         id,
       },
@@ -43,4 +44,5 @@ export default class AnswerRepository implements IAnswerRepository {
         deleted_at: new Date(),
       },
     });
+  }
 }

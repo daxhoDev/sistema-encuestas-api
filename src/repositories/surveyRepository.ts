@@ -1,18 +1,12 @@
 import type { surveysCreateInput } from "../generated/prisma/models.js";
 import { prisma } from "../lib/prisma.js";
-import type { ISurveyRepository } from "../types.js";
+import type { ISurveyRepository, QueryString, Survey } from "../types.js";
 
 export default class SurveyRepository implements ISurveyRepository {
   defaultTake = 10;
   defaultSkip = 0;
 
-  getAll: ISurveyRepository["getAll"] = async ({
-    search,
-    active,
-    date,
-    page,
-    limit,
-  }) => {
+  async getAll({ search, active, date, page, limit }: QueryString) {
     const where: any = {
       deleted_at: null,
     };
@@ -44,19 +38,24 @@ export default class SurveyRepository implements ISurveyRepository {
       take: limit ? limit : this.defaultTake,
       skip: page ? (page - 1) * this.defaultTake : this.defaultSkip,
     });
-  };
+  }
 
-  getBySlug: ISurveyRepository["getBySlug"] = async (slug) =>
-    await prisma.surveys.findFirst({ where: { slug, deleted_at: null } });
+  async getBySlug(slug: string) {
+    return await prisma.surveys.findFirst({
+      where: { slug, deleted_at: null },
+    });
+  }
 
-  createOne: ISurveyRepository["createOne"] = async (survey) =>
-    await prisma.surveys.create({ data: survey });
+  async createOne(survey: any) {
+    return await prisma.surveys.create({ data: survey });
+  }
 
-  deleteOneBySlug: ISurveyRepository["deleteOneBySlug"] = async (slug) =>
-    await prisma.surveys.update({
+  async deleteOneBySlug(slug: string) {
+    return await prisma.surveys.update({
       where: { slug },
       data: {
         deleted_at: new Date(),
       },
     });
+  }
 }

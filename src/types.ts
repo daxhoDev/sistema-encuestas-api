@@ -38,5 +38,5 @@ export type Response = z.infer<typeof responseSchema>;
 export type QueryString = z.infer<typeof queryStringSchema>;
 
 export interface QueryStringRequest extends Request {
-  queryData: QueryString;
+  queryData?: QueryString;
 }

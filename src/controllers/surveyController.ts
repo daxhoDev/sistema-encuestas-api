@@ -10,15 +10,11 @@ import { date } from "zod";
 export default class SurveyController {
   constructor(private service: ISurveyService) {}
 
-  getAll = async (
-    req: QueryStringRequest,
-    res: Response,
-    next: NextFunction,
-  ) => {
+  async getAll(req: QueryStringRequest, res: Response, next: NextFunction) {
     const queries = req.queryData;
     console.log(req.queryData);
 
-    const surveys = await this.service.getAll(queries);
+    const surveys = await this.service.getAll(queries as QueryString);
     res
       .type("json")
       .status(200)
@@ -29,9 +25,9 @@ export default class SurveyController {
           data: surveys,
         }),
       );
-  };
+  }
 
-  getBySlug = async (req: Request, res: Response, next: NextFunction) => {
+  async getBySlug(req: Request, res: Response, next: NextFunction) {
     const survey = await this.service.getBySlug(req.params.slug as string);
     res
       .type("json")
@@ -42,9 +38,9 @@ export default class SurveyController {
           data: survey,
         }),
       );
-  };
+  }
 
-  createOne = async (req: Request, res: Response, next: NextFunction) => {
+  async createOne(req: Request, res: Response, next: NextFunction) {
     const createdSurvey = await this.service.createOne(req.body);
     res
       .type("json")
@@ -55,9 +51,9 @@ export default class SurveyController {
           data: createdSurvey,
         }),
       );
-  };
+  }
 
-  deleteOneBySlug = async (req: Request, res: Response) => {
+  async deleteOneBySlug(req: Request, res: Response) {
     const slug = req.params.slug as string;
     await this.service.deleteOneBySlug(slug);
 
@@ -70,5 +66,5 @@ export default class SurveyController {
           data: [],
         }),
       );
-  };
+  }
 }

@@ -5,7 +5,7 @@ import type { IAnswerService } from "../types.js";
 export default class AnswerController {
   constructor(private service: IAnswerService) {}
 
-  getAllFromSurvey = async (req: Request, res: Response) => {
+  async getAllFromSurvey(req: Request, res: Response) {
     const answers = await this.service.getAllFromSurvey(
       req.params.slug as string,
     );
@@ -15,9 +15,9 @@ export default class AnswerController {
       .send(
         json({ status: "success", results: answers.length, data: answers }),
       );
-  };
+  }
 
-  getById = async (req: Request, res: Response) => {
+  async getById(req: Request, res: Response) {
     const id = Number(req.params.id);
     const answer = await this.service.getById(id);
 
@@ -25,9 +25,9 @@ export default class AnswerController {
       .type("json")
       .status(200)
       .send(json({ status: "success", data: answer }));
-  };
+  }
 
-  createOne = async (req: Request, res: Response) => {
+  async createOne(req: Request, res: Response) {
     const createdAnswer = await this.service.createOne(
       req.body,
       req.params.slug as string,
@@ -41,9 +41,9 @@ export default class AnswerController {
           data: createdAnswer,
         }),
       );
-  };
+  }
 
-  deleteById = async (req: Request, res: Response) => {
+  async deleteById(req: Request, res: Response) {
     const id = Number(req.params.id);
     await this.service.deleteById(id);
 
@@ -56,5 +56,5 @@ export default class AnswerController {
           data: [],
         }),
       );
-  };
+  }
 }
