@@ -1,6 +1,14 @@
-import type z from "zod";
+import z from "zod";
 import type { queryStringSchema } from "./schemas/queryStringsSchema.js";
 import type { Request } from "express";
+import {
+  questionSchema,
+  type createSurveySchema,
+} from "./schemas/surveySchema.js";
+import type {
+  createAnswerSchema,
+  responseSchema,
+} from "./schemas/answerSchema.js";
 
 export interface ISurveyRepository {
   getAll: (search?: string, active?: boolean, date?: Date) => Promise<any[]>;
@@ -21,46 +29,11 @@ export interface IAnswerService extends Omit<IAnswerRepository, "createOne"> {
   createOne: (answer: any, slug: string) => Promise<any>;
 }
 
-export interface Survey {
-  id: number;
-  name: string;
-  questions: Question[];
-  createdAt: string;
-  deletedAt?: string;
-  slug: string;
-}
+export type Survey = z.infer<typeof createSurveySchema>;
+export type Question = z.infer<typeof questionSchema>;
 
-export interface Answer {
-  id: number;
-  surveyId: number;
-  responses: Response[];
-}
-
-export interface Profile {
-  id: number;
-  email: string;
-  password: string;
-  username: string;
-}
-
-export interface Question {
-  id: number;
-  name: string;
-  type: QuestionType;
-  options?: string[];
-  is_required?: boolean;
-}
-
-export enum QuestionType {
-  multiSelect = "MULTI_SELECT",
-  singleSelect = "SINGLE_SELECT",
-  textAnser = "TEXT_ANSWER",
-}
-
-export interface Response {
-  id: number;
-  content: string;
-}
+export type Answer = z.infer<typeof createAnswerSchema>;
+export type Response = z.infer<typeof responseSchema>;
 
 export type QueryString = z.infer<typeof queryStringSchema>;
 
