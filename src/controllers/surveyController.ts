@@ -15,14 +15,10 @@ export default class SurveyController {
     res: Response,
     next: NextFunction,
   ) => {
-    const queryData = req.queryData;
+    const queries = req.queryData;
     console.log(req.queryData);
 
-    const surveys = await this.service.getAll(
-      queryData?.search,
-      queryData?.active,
-      queryData?.date,
-    );
+    const surveys = await this.service.getAll(queries);
     res
       .type("json")
       .status(200)

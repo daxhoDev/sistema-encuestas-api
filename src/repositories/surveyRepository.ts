@@ -1,10 +1,14 @@
-import { primaryKey } from "drizzle-orm/gel-core";
 import type { surveysCreateInput } from "../generated/prisma/models.js";
 import { prisma } from "../lib/prisma.js";
 import type { ISurveyRepository } from "../types.js";
 
 export default class SurveyRepository implements ISurveyRepository {
-  getAll: ISurveyRepository["getAll"] = async (search, active, date) => {
+  getAll: ISurveyRepository["getAll"] = async ({
+    search,
+    active,
+    date,
+    page,
+  }) => {
     const where: any = {
       deleted_at: null,
     };

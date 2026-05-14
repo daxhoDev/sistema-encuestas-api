@@ -11,7 +11,7 @@ import type {
 } from "./schemas/answerSchema.js";
 
 export interface ISurveyRepository {
-  getAll: (search?: string, active?: boolean, date?: Date) => Promise<any[]>;
+  getAll: (queries: QueryString) => Promise<any[]>;
   getBySlug: (slug: string) => Promise<any>;
   createOne: (survey: any) => Promise<any>;
   deleteOneBySlug: (slug: string) => Promise<any>;
@@ -38,5 +38,5 @@ export type Response = z.infer<typeof responseSchema>;
 export type QueryString = z.infer<typeof queryStringSchema>;
 
 export interface QueryStringRequest extends Request {
-  queryData?: QueryString;
+  queryData: QueryString;
 }

@@ -7,14 +7,18 @@ export const responseSchema = z.strictObject(
       .string(
         "Each response.content must be a string, a number or a string of numbers",
       )
-      .or(z.number().or(z.array(z.number()))),
+      .min(2, "Response is too short")
+      .or(
+        z
+          .number()
+          .or(z.array(z.number()).nonempty("A responses array can't be empty")),
+      ),
   },
   "Each response must be an object",
 );
 
 export const createAnswerSchema = z.strictObject(
   {
-    survey_id: z.number("survey_id must be an integer"),
     responses: z.array(responseSchema, "responses must be an array"),
     origin_ip: z.ipv4("origin_ip must be a valid IP (ipv4) address"),
   },
