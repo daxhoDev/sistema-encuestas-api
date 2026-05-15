@@ -58,4 +58,11 @@ export default class SurveyRepository implements ISurveyRepository {
       },
     });
   }
+
+  async updateOneBySlug(slug: string, data: any) {
+    return await prisma.surveys.update({
+      where: { slug },
+      data,
+    });
+  }
 }

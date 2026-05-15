@@ -26,6 +26,7 @@ router
 router
   .route("/:slug/")
   .get(surveyController.getBySlug.bind(surveyController))
+  .put(surveyController.updateOneBySlug.bind(surveyController))
   .delete(surveyController.deleteOneBySlug.bind(surveyController));
 
 export default router;

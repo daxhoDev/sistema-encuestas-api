@@ -5,6 +5,7 @@ import type {
   ISurveyRepository,
   ISurveyService,
   QueryString,
+  Survey,
 } from "../types.js";
 import AppError from "../utils/appError.js";
 import slugify from "slugify";
@@ -39,6 +40,25 @@ export default class SurveyService implements ISurveyService {
     await this.repo.createOne(serializedData);
   }
 
-  deleteOneBySlug: ISurveyService["deleteOneBySlug"] = async (slug) =>
-    await this.repo.deleteOneBySlug(slug);
+  async deleteOneBySlug(slug: string) {
+    return await this.repo.deleteOneBySlug(slug);
+  }
+
+  async updateOneBySlug(slug: string, data: Survey) {
+    const {
+      success,
+      data: serializedData,
+      error,
+    } = z.safeParse(createSurveySchema, data);
+
+    if (error) throw error;
+
+    const newSlug = slugify(serializedData.name, { lower: true, strict: true });
+
+    return await this.repo.updateOneBySlug(slug, {
+      ...serializedData,
+      slug: newSlug,
+      updated_at: new Date(),
+    });
+  }
 }

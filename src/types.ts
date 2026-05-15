@@ -15,6 +15,7 @@ export interface ISurveyRepository {
   getBySlug: (slug: string) => Promise<any>;
   createOne: (survey: any) => Promise<any>;
   deleteOneBySlug: (slug: string) => Promise<any>;
+  updateOneBySlug: (slug: string, data: any) => Promise<any>;
 }
 export interface ISurveyService extends ISurveyRepository {}
 

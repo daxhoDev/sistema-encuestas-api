@@ -67,4 +67,20 @@ export default class SurveyController {
         }),
       );
   }
+
+  async updateOneBySlug(req: Request, res: Response) {
+    const slug = req.params.slug as string;
+    const data = req.body;
+    const updatedSurvey = await this.service.updateOneBySlug(slug, data);
+
+    res
+      .type("json")
+      .status(200)
+      .send(
+        json({
+          status: "success",
+          data: updatedSurvey,
+        }),
+      );
+  }
 }
