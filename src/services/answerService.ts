@@ -26,7 +26,7 @@ export default class AnswerService implements IAnswerService {
     return await this.answerRepo.getById(id);
   }
 
-  async createOne(answer: answersCreateInput, slug: string) {
+  async createOne(answer: Answer, slug: string) {
     const referencedSurvey = await this.surveyRepo.getBySlug(slug);
 
     const serializedData = this.validateAnswerCreation(

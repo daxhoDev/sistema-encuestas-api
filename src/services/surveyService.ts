@@ -33,7 +33,7 @@ export default class SurveyService implements ISurveyService {
     if (!result.success) throw result.error;
 
     const slug = slugify(survey.name, { lower: true, strict: true });
-    const slugExists = await this.repo.getBySlug(slug);
+    const slugExists = await this.repo.getSlugBySlug(slug);
 
     if (slugExists) {
       throw new AppError(`This survey name is not avaliable`, 400);
@@ -44,28 +44,40 @@ export default class SurveyService implements ISurveyService {
   }
 
   async deleteOneBySlug(slug: string) {
+    const surveyExists = await this.repo.getSlugBySlug(slug);
+    console.log(surveyExists);
+
+    if (!surveyExists) throw new AppError("Survey not found", 404);
+
     return await this.repo.deleteOneBySlug(slug);
   }
 
   async updateOneBySlug(slug: string, data: Survey) {
+    const surveyExists = await this.repo.getSlugBySlug(slug);
+
+    if (!surveyExists) {
+      throw new AppError("Survey not found", 404);
+    }
+
     const {
       success,
       data: serializedData,
       error,
     } = z.safeParse(updateSurveySchema, data);
-
+    console.log(data, serializedData);
     if (!success) throw error;
 
     const newSlug = serializedData.name
       ? slugify(serializedData.name, { lower: true, strict: true })
       : slug;
 
-    let slugExists = false;
+    let newSlugExists = false;
+
     if (slug !== newSlug) {
-      slugExists = await this.repo.getBySlug(newSlug);
+      newSlugExists = await this.repo.getSlugBySlug(newSlug);
     }
 
-    if (slugExists) {
+    if (newSlugExists) {
       throw new AppError(`This survey name is not avaliable`, 400);
     }
 
@@ -73,6 +85,7 @@ export default class SurveyService implements ISurveyService {
       ...serializedData,
       slug: newSlug,
       updated_at: new Date(),
+      activated_at: serializedData.is_active ? new Date() : null,
     });
   }
 }

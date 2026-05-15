@@ -64,10 +64,8 @@ export const createSurveySchema = z.strictObject(
   "Invalid format",
 );
 
-export const updateSurveySchema = z.strictObject(
-  {
-    name: surveyNameSchema.optional(),
-    questions: questionArrSchema.optional(),
-  },
-  "Invalid format",
-);
+export const updateSurveySchema = z.object({
+  name: surveyNameSchema.optional(),
+  questions: questionArrSchema.optional(),
+  is_active: z.boolean("is_active must be a boolean").optional(),
+});

@@ -1,0 +1,20 @@
+import * as Prisma from './internal/prismaNamespaceBrowser.js';
+export { Prisma };
+export * as $Enums from './enums.js';
+export * from './enums.js';
+/**
+ * Model answers
+ *
+ */
+export type answers = Prisma.answersModel;
+/**
+ * Model surveys
+ *
+ */
+export type surveys = Prisma.surveysModel;
+/**
+ * Model users
+ *
+ */
+export type users = Prisma.usersModel;
+//# sourceMappingURL=browser.d.ts.map

@@ -68,4 +68,11 @@ export default class SurveyRepository implements ISurveyRepository {
       data,
     });
   }
+
+  async getSlugBySlug(slug: string) {
+    return await prisma.surveys.findUnique({
+      where: { slug, deleted_at: null },
+      select: { slug: true },
+    });
+  }
 }
