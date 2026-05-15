@@ -5,7 +5,6 @@ import type {
   QueryString,
   QueryStringRequest,
 } from "../types.js";
-import { date } from "zod";
 
 export default class SurveyController {
   constructor(private service: ISurveyService) {}
@@ -41,6 +40,7 @@ export default class SurveyController {
   }
 
   async createOne(req: Request, res: Response, next: NextFunction) {
+    console.log(this);
     const createdSurvey = await this.service.createOne(req.body);
     res
       .type("json")

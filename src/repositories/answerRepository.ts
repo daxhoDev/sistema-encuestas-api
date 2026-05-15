@@ -14,7 +14,7 @@ export default class AnswerRepository implements IAnswerRepository {
     });
   }
 
-  async getById(id: number) {
+  async getById(id: string) {
     return await prisma.answers.findUnique({
       where: {
         id,
@@ -32,16 +32,27 @@ export default class AnswerRepository implements IAnswerRepository {
   }
 
   async createOne(answer: any) {
-    await prisma.answers.create({ data: answer });
+    return await prisma.answers.create({ data: answer });
   }
 
-  async deleteById(id: number) {
+  async deleteById(id: string) {
     return await prisma.answers.update({
       where: {
         id,
       },
       data: {
         deleted_at: new Date(),
+      },
+    });
+  }
+
+  async getIpByOriginIp(ip: string) {
+    return await prisma.answers.findUnique({
+      where: {
+        origin_ip: ip,
+      },
+      select: {
+        origin_ip: true,
       },
     });
   }

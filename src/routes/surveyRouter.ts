@@ -21,7 +21,7 @@ router
     urlController.validateQueryStrings.bind(urlController),
     surveyController.getAll.bind(surveyController),
   )
-  .post(surveyController.createOne);
+  .post(surveyController.createOne.bind(surveyController));
 
 router
   .route("/:slug/")

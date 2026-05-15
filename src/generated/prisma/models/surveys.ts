@@ -20,22 +20,12 @@ export type surveysModel = runtime.Types.Result.DefaultSelection<Prisma.$surveys
 
 export type AggregateSurveys = {
   _count: SurveysCountAggregateOutputType | null
-  _avg: SurveysAvgAggregateOutputType | null
-  _sum: SurveysSumAggregateOutputType | null
   _min: SurveysMinAggregateOutputType | null
   _max: SurveysMaxAggregateOutputType | null
 }
 
-export type SurveysAvgAggregateOutputType = {
-  id: number | null
-}
-
-export type SurveysSumAggregateOutputType = {
-  id: bigint | null
-}
-
 export type SurveysMinAggregateOutputType = {
-  id: bigint | null
+  id: string | null
   name: string | null
   is_active: boolean | null
   created_at: Date | null
@@ -46,7 +36,7 @@ export type SurveysMinAggregateOutputType = {
 }
 
 export type SurveysMaxAggregateOutputType = {
-  id: bigint | null
+  id: string | null
   name: string | null
   is_active: boolean | null
   created_at: Date | null
@@ -69,14 +59,6 @@ export type SurveysCountAggregateOutputType = {
   _all: number
 }
 
-
-export type SurveysAvgAggregateInputType = {
-  id?: true
-}
-
-export type SurveysSumAggregateInputType = {
-  id?: true
-}
 
 export type SurveysMinAggregateInputType = {
   id?: true
@@ -151,18 +133,6 @@ export type SurveysAggregateArgs<ExtArgs extends runtime.Types.Extensions.Intern
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: SurveysAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: SurveysSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: SurveysMinAggregateInputType
@@ -193,14 +163,12 @@ export type surveysGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   _count?: SurveysCountAggregateInputType | true
-  _avg?: SurveysAvgAggregateInputType
-  _sum?: SurveysSumAggregateInputType
   _min?: SurveysMinAggregateInputType
   _max?: SurveysMaxAggregateInputType
 }
 
 export type SurveysGroupByOutputType = {
-  id: bigint
+  id: string
   name: string
   questions: runtime.JsonValue
   is_active: boolean
@@ -210,8 +178,6 @@ export type SurveysGroupByOutputType = {
   updated_at: Date | null
   activated_at: Date | null
   _count: SurveysCountAggregateOutputType | null
-  _avg: SurveysAvgAggregateOutputType | null
-  _sum: SurveysSumAggregateOutputType | null
   _min: SurveysMinAggregateOutputType | null
   _max: SurveysMaxAggregateOutputType | null
 }
@@ -235,7 +201,7 @@ export type surveysWhereInput = {
   AND?: Prisma.surveysWhereInput | Prisma.surveysWhereInput[]
   OR?: Prisma.surveysWhereInput[]
   NOT?: Prisma.surveysWhereInput | Prisma.surveysWhereInput[]
-  id?: Prisma.BigIntFilter<"surveys"> | bigint | number
+  id?: Prisma.UuidFilter<"surveys"> | string
   name?: Prisma.StringFilter<"surveys"> | string
   questions?: Prisma.JsonFilter<"surveys">
   is_active?: Prisma.BoolFilter<"surveys"> | boolean
@@ -261,7 +227,7 @@ export type surveysOrderByWithRelationInput = {
 }
 
 export type surveysWhereUniqueInput = Prisma.AtLeast<{
-  id?: bigint | number
+  id?: string
   slug?: string
   AND?: Prisma.surveysWhereInput | Prisma.surveysWhereInput[]
   OR?: Prisma.surveysWhereInput[]
@@ -287,17 +253,15 @@ export type surveysOrderByWithAggregationInput = {
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   activated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.surveysCountOrderByAggregateInput
-  _avg?: Prisma.surveysAvgOrderByAggregateInput
   _max?: Prisma.surveysMaxOrderByAggregateInput
   _min?: Prisma.surveysMinOrderByAggregateInput
-  _sum?: Prisma.surveysSumOrderByAggregateInput
 }
 
 export type surveysScalarWhereWithAggregatesInput = {
   AND?: Prisma.surveysScalarWhereWithAggregatesInput | Prisma.surveysScalarWhereWithAggregatesInput[]
   OR?: Prisma.surveysScalarWhereWithAggregatesInput[]
   NOT?: Prisma.surveysScalarWhereWithAggregatesInput | Prisma.surveysScalarWhereWithAggregatesInput[]
-  id?: Prisma.BigIntWithAggregatesFilter<"surveys"> | bigint | number
+  id?: Prisma.UuidWithAggregatesFilter<"surveys"> | string
   name?: Prisma.StringWithAggregatesFilter<"surveys"> | string
   questions?: Prisma.JsonWithAggregatesFilter<"surveys">
   is_active?: Prisma.BoolWithAggregatesFilter<"surveys"> | boolean
@@ -309,7 +273,7 @@ export type surveysScalarWhereWithAggregatesInput = {
 }
 
 export type surveysCreateInput = {
-  id?: bigint | number
+  id: string
   name: string
   questions: Prisma.JsonNullValueInput | runtime.InputJsonValue
   is_active?: boolean
@@ -322,7 +286,7 @@ export type surveysCreateInput = {
 }
 
 export type surveysUncheckedCreateInput = {
-  id?: bigint | number
+  id: string
   name: string
   questions: Prisma.JsonNullValueInput | runtime.InputJsonValue
   is_active?: boolean
@@ -335,7 +299,7 @@ export type surveysUncheckedCreateInput = {
 }
 
 export type surveysUpdateInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   questions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -348,7 +312,7 @@ export type surveysUpdateInput = {
 }
 
 export type surveysUncheckedUpdateInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   questions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -361,7 +325,7 @@ export type surveysUncheckedUpdateInput = {
 }
 
 export type surveysCreateManyInput = {
-  id?: bigint | number
+  id: string
   name: string
   questions: Prisma.JsonNullValueInput | runtime.InputJsonValue
   is_active?: boolean
@@ -373,7 +337,7 @@ export type surveysCreateManyInput = {
 }
 
 export type surveysUpdateManyMutationInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   questions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -385,7 +349,7 @@ export type surveysUpdateManyMutationInput = {
 }
 
 export type surveysUncheckedUpdateManyInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   questions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -413,10 +377,6 @@ export type surveysCountOrderByAggregateInput = {
   activated_at?: Prisma.SortOrder
 }
 
-export type surveysAvgOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-}
-
 export type surveysMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -437,10 +397,6 @@ export type surveysMinOrderByAggregateInput = {
   slug?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   activated_at?: Prisma.SortOrder
-}
-
-export type surveysSumOrderByAggregateInput = {
-  id?: Prisma.SortOrder
 }
 
 export type surveysCreateNestedOneWithoutAnswersInput = {
@@ -464,7 +420,7 @@ export type BoolFieldUpdateOperationsInput = {
 }
 
 export type surveysCreateWithoutAnswersInput = {
-  id?: bigint | number
+  id: string
   name: string
   questions: Prisma.JsonNullValueInput | runtime.InputJsonValue
   is_active?: boolean
@@ -476,7 +432,7 @@ export type surveysCreateWithoutAnswersInput = {
 }
 
 export type surveysUncheckedCreateWithoutAnswersInput = {
-  id?: bigint | number
+  id: string
   name: string
   questions: Prisma.JsonNullValueInput | runtime.InputJsonValue
   is_active?: boolean
@@ -504,7 +460,7 @@ export type surveysUpdateToOneWithWhereWithoutAnswersInput = {
 }
 
 export type surveysUpdateWithoutAnswersInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   questions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -516,7 +472,7 @@ export type surveysUpdateWithoutAnswersInput = {
 }
 
 export type surveysUncheckedUpdateWithoutAnswersInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   questions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -622,7 +578,7 @@ export type $surveysPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     answers: Prisma.$answersPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: bigint
+    id: string
     name: string
     questions: runtime.JsonValue
     is_active: boolean
@@ -1055,7 +1011,7 @@ export interface Prisma__surveysClient<T, Null = never, ExtArgs extends runtime.
  * Fields of the surveys model
  */
 export interface surveysFieldRefs {
-  readonly id: Prisma.FieldRef<"surveys", 'BigInt'>
+  readonly id: Prisma.FieldRef<"surveys", 'String'>
   readonly name: Prisma.FieldRef<"surveys", 'String'>
   readonly questions: Prisma.FieldRef<"surveys", 'Json'>
   readonly is_active: Prisma.FieldRef<"surveys", 'Boolean'>

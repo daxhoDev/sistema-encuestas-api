@@ -20,33 +20,21 @@ export type answersModel = runtime.Types.Result.DefaultSelection<Prisma.$answers
 
 export type AggregateAnswers = {
   _count: AnswersCountAggregateOutputType | null
-  _avg: AnswersAvgAggregateOutputType | null
-  _sum: AnswersSumAggregateOutputType | null
   _min: AnswersMinAggregateOutputType | null
   _max: AnswersMaxAggregateOutputType | null
 }
 
-export type AnswersAvgAggregateOutputType = {
-  id: number | null
-  survey_id: number | null
-}
-
-export type AnswersSumAggregateOutputType = {
-  id: bigint | null
-  survey_id: bigint | null
-}
-
 export type AnswersMinAggregateOutputType = {
-  id: bigint | null
-  survey_id: bigint | null
+  id: string | null
+  survey_id: string | null
   origin_ip: string | null
   created_at: Date | null
   deleted_at: Date | null
 }
 
 export type AnswersMaxAggregateOutputType = {
-  id: bigint | null
-  survey_id: bigint | null
+  id: string | null
+  survey_id: string | null
   origin_ip: string | null
   created_at: Date | null
   deleted_at: Date | null
@@ -62,16 +50,6 @@ export type AnswersCountAggregateOutputType = {
   _all: number
 }
 
-
-export type AnswersAvgAggregateInputType = {
-  id?: true
-  survey_id?: true
-}
-
-export type AnswersSumAggregateInputType = {
-  id?: true
-  survey_id?: true
-}
 
 export type AnswersMinAggregateInputType = {
   id?: true
@@ -137,18 +115,6 @@ export type AnswersAggregateArgs<ExtArgs extends runtime.Types.Extensions.Intern
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: AnswersAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: AnswersSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: AnswersMinAggregateInputType
@@ -179,22 +145,18 @@ export type answersGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   _count?: AnswersCountAggregateInputType | true
-  _avg?: AnswersAvgAggregateInputType
-  _sum?: AnswersSumAggregateInputType
   _min?: AnswersMinAggregateInputType
   _max?: AnswersMaxAggregateInputType
 }
 
 export type AnswersGroupByOutputType = {
-  id: bigint
-  survey_id: bigint | null
+  id: string
+  survey_id: string | null
   responses: runtime.JsonValue
   origin_ip: string
   created_at: Date | null
   deleted_at: Date | null
   _count: AnswersCountAggregateOutputType | null
-  _avg: AnswersAvgAggregateOutputType | null
-  _sum: AnswersSumAggregateOutputType | null
   _min: AnswersMinAggregateOutputType | null
   _max: AnswersMaxAggregateOutputType | null
 }
@@ -218,8 +180,8 @@ export type answersWhereInput = {
   AND?: Prisma.answersWhereInput | Prisma.answersWhereInput[]
   OR?: Prisma.answersWhereInput[]
   NOT?: Prisma.answersWhereInput | Prisma.answersWhereInput[]
-  id?: Prisma.BigIntFilter<"answers"> | bigint | number
-  survey_id?: Prisma.BigIntNullableFilter<"answers"> | bigint | number | null
+  id?: Prisma.UuidFilter<"answers"> | string
+  survey_id?: Prisma.UuidNullableFilter<"answers"> | string | null
   responses?: Prisma.JsonFilter<"answers">
   origin_ip?: Prisma.StringFilter<"answers"> | string
   created_at?: Prisma.DateTimeNullableFilter<"answers"> | Date | string | null
@@ -238,17 +200,17 @@ export type answersOrderByWithRelationInput = {
 }
 
 export type answersWhereUniqueInput = Prisma.AtLeast<{
-  id?: bigint | number
+  id?: string
+  origin_ip?: string
   AND?: Prisma.answersWhereInput | Prisma.answersWhereInput[]
   OR?: Prisma.answersWhereInput[]
   NOT?: Prisma.answersWhereInput | Prisma.answersWhereInput[]
-  survey_id?: Prisma.BigIntNullableFilter<"answers"> | bigint | number | null
+  survey_id?: Prisma.UuidNullableFilter<"answers"> | string | null
   responses?: Prisma.JsonFilter<"answers">
-  origin_ip?: Prisma.StringFilter<"answers"> | string
   created_at?: Prisma.DateTimeNullableFilter<"answers"> | Date | string | null
   deleted_at?: Prisma.DateTimeNullableFilter<"answers"> | Date | string | null
   surveys?: Prisma.XOR<Prisma.SurveysNullableScalarRelationFilter, Prisma.surveysWhereInput> | null
-}, "id">
+}, "id" | "origin_ip">
 
 export type answersOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -258,18 +220,16 @@ export type answersOrderByWithAggregationInput = {
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.answersCountOrderByAggregateInput
-  _avg?: Prisma.answersAvgOrderByAggregateInput
   _max?: Prisma.answersMaxOrderByAggregateInput
   _min?: Prisma.answersMinOrderByAggregateInput
-  _sum?: Prisma.answersSumOrderByAggregateInput
 }
 
 export type answersScalarWhereWithAggregatesInput = {
   AND?: Prisma.answersScalarWhereWithAggregatesInput | Prisma.answersScalarWhereWithAggregatesInput[]
   OR?: Prisma.answersScalarWhereWithAggregatesInput[]
   NOT?: Prisma.answersScalarWhereWithAggregatesInput | Prisma.answersScalarWhereWithAggregatesInput[]
-  id?: Prisma.BigIntWithAggregatesFilter<"answers"> | bigint | number
-  survey_id?: Prisma.BigIntNullableWithAggregatesFilter<"answers"> | bigint | number | null
+  id?: Prisma.UuidWithAggregatesFilter<"answers"> | string
+  survey_id?: Prisma.UuidNullableWithAggregatesFilter<"answers"> | string | null
   responses?: Prisma.JsonWithAggregatesFilter<"answers">
   origin_ip?: Prisma.StringWithAggregatesFilter<"answers"> | string
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"answers"> | Date | string | null
@@ -277,7 +237,7 @@ export type answersScalarWhereWithAggregatesInput = {
 }
 
 export type answersCreateInput = {
-  id?: bigint | number
+  id: string
   responses: Prisma.JsonNullValueInput | runtime.InputJsonValue
   origin_ip: string
   created_at?: Date | string | null
@@ -286,8 +246,8 @@ export type answersCreateInput = {
 }
 
 export type answersUncheckedCreateInput = {
-  id?: bigint | number
-  survey_id?: bigint | number | null
+  id: string
+  survey_id?: string | null
   responses: Prisma.JsonNullValueInput | runtime.InputJsonValue
   origin_ip: string
   created_at?: Date | string | null
@@ -295,7 +255,7 @@ export type answersUncheckedCreateInput = {
 }
 
 export type answersUpdateInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   responses?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   origin_ip?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -304,8 +264,8 @@ export type answersUpdateInput = {
 }
 
 export type answersUncheckedUpdateInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  survey_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  survey_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   responses?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   origin_ip?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -313,8 +273,8 @@ export type answersUncheckedUpdateInput = {
 }
 
 export type answersCreateManyInput = {
-  id?: bigint | number
-  survey_id?: bigint | number | null
+  id: string
+  survey_id?: string | null
   responses: Prisma.JsonNullValueInput | runtime.InputJsonValue
   origin_ip: string
   created_at?: Date | string | null
@@ -322,7 +282,7 @@ export type answersCreateManyInput = {
 }
 
 export type answersUpdateManyMutationInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   responses?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   origin_ip?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -330,8 +290,8 @@ export type answersUpdateManyMutationInput = {
 }
 
 export type answersUncheckedUpdateManyInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  survey_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  survey_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   responses?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   origin_ip?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -345,11 +305,6 @@ export type answersCountOrderByAggregateInput = {
   origin_ip?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrder
-}
-
-export type answersAvgOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  survey_id?: Prisma.SortOrder
 }
 
 export type answersMaxOrderByAggregateInput = {
@@ -368,11 +323,6 @@ export type answersMinOrderByAggregateInput = {
   deleted_at?: Prisma.SortOrder
 }
 
-export type answersSumOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  survey_id?: Prisma.SortOrder
-}
-
 export type AnswersListRelationFilter = {
   every?: Prisma.answersWhereInput
   some?: Prisma.answersWhereInput
@@ -383,14 +333,6 @@ export type answersOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type BigIntFieldUpdateOperationsInput = {
-  set?: bigint | number
-  increment?: bigint | number
-  decrement?: bigint | number
-  multiply?: bigint | number
-  divide?: bigint | number
-}
-
 export type StringFieldUpdateOperationsInput = {
   set?: string
 }
@@ -399,12 +341,8 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
 }
 
-export type NullableBigIntFieldUpdateOperationsInput = {
-  set?: bigint | number | null
-  increment?: bigint | number
-  decrement?: bigint | number
-  multiply?: bigint | number
-  divide?: bigint | number
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
 }
 
 export type answersCreateNestedManyWithoutSurveysInput = {
@@ -450,7 +388,7 @@ export type answersUncheckedUpdateManyWithoutSurveysNestedInput = {
 }
 
 export type answersCreateWithoutSurveysInput = {
-  id?: bigint | number
+  id: string
   responses: Prisma.JsonNullValueInput | runtime.InputJsonValue
   origin_ip: string
   created_at?: Date | string | null
@@ -458,7 +396,7 @@ export type answersCreateWithoutSurveysInput = {
 }
 
 export type answersUncheckedCreateWithoutSurveysInput = {
-  id?: bigint | number
+  id: string
   responses: Prisma.JsonNullValueInput | runtime.InputJsonValue
   origin_ip: string
   created_at?: Date | string | null
@@ -495,8 +433,8 @@ export type answersScalarWhereInput = {
   AND?: Prisma.answersScalarWhereInput | Prisma.answersScalarWhereInput[]
   OR?: Prisma.answersScalarWhereInput[]
   NOT?: Prisma.answersScalarWhereInput | Prisma.answersScalarWhereInput[]
-  id?: Prisma.BigIntFilter<"answers"> | bigint | number
-  survey_id?: Prisma.BigIntNullableFilter<"answers"> | bigint | number | null
+  id?: Prisma.UuidFilter<"answers"> | string
+  survey_id?: Prisma.UuidNullableFilter<"answers"> | string | null
   responses?: Prisma.JsonFilter<"answers">
   origin_ip?: Prisma.StringFilter<"answers"> | string
   created_at?: Prisma.DateTimeNullableFilter<"answers"> | Date | string | null
@@ -504,7 +442,7 @@ export type answersScalarWhereInput = {
 }
 
 export type answersCreateManySurveysInput = {
-  id?: bigint | number
+  id: string
   responses: Prisma.JsonNullValueInput | runtime.InputJsonValue
   origin_ip: string
   created_at?: Date | string | null
@@ -512,7 +450,7 @@ export type answersCreateManySurveysInput = {
 }
 
 export type answersUpdateWithoutSurveysInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   responses?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   origin_ip?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -520,7 +458,7 @@ export type answersUpdateWithoutSurveysInput = {
 }
 
 export type answersUncheckedUpdateWithoutSurveysInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   responses?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   origin_ip?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -528,7 +466,7 @@ export type answersUncheckedUpdateWithoutSurveysInput = {
 }
 
 export type answersUncheckedUpdateManyWithoutSurveysInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   responses?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   origin_ip?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -593,8 +531,8 @@ export type $answersPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     surveys: Prisma.$surveysPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: bigint
-    survey_id: bigint | null
+    id: string
+    survey_id: string | null
     responses: runtime.JsonValue
     origin_ip: string
     created_at: Date | null
@@ -1023,8 +961,8 @@ export interface Prisma__answersClient<T, Null = never, ExtArgs extends runtime.
  * Fields of the answers model
  */
 export interface answersFieldRefs {
-  readonly id: Prisma.FieldRef<"answers", 'BigInt'>
-  readonly survey_id: Prisma.FieldRef<"answers", 'BigInt'>
+  readonly id: Prisma.FieldRef<"answers", 'String'>
+  readonly survey_id: Prisma.FieldRef<"answers", 'String'>
   readonly responses: Prisma.FieldRef<"answers", 'Json'>
   readonly origin_ip: Prisma.FieldRef<"answers", 'String'>
   readonly created_at: Prisma.FieldRef<"answers", 'DateTime'>

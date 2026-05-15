@@ -12,6 +12,7 @@ import type {
 } from "../types.js";
 import AppError from "../utils/appError.js";
 import slugify from "slugify";
+import { v7 as uuidv7 } from "uuid";
 
 export default class SurveyService implements ISurveyService {
   constructor(private repo: ISurveyRepository) {}
@@ -39,7 +40,8 @@ export default class SurveyService implements ISurveyService {
       throw new AppError(`This survey name is not avaliable`, 400);
     }
 
-    const serializedData = { ...result.data, slug };
+    const id = uuidv7();
+    const serializedData = { id, slug, ...result.data };
     await this.repo.createOne(serializedData);
   }
 

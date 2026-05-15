@@ -28,6 +28,7 @@ export class ErrorController {
     }
 
     if (process.env.NODE_ENV === "development") {
+      console.log(err);
       this.sendErrorDev(err, res);
     } else if (process.env.NODE_ENV === "production") {
       this.sendErrorProd(err, res);

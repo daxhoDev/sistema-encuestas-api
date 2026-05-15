@@ -11,6 +11,7 @@ import {
   type Response,
   type Survey,
 } from "../types.js";
+import { v7 } from "uuid";
 
 export default class AnswerService implements IAnswerService {
   constructor(
@@ -22,37 +23,41 @@ export default class AnswerService implements IAnswerService {
     return await this.answerRepo.getAllFromSurvey(surveySlug);
   }
 
-  async getById(id: number) {
+  async getById(id: string) {
     return await this.answerRepo.getById(id);
   }
 
   async createOne(answer: Answer, slug: string) {
+    const { success, error, data } = z.safeParse(createAnswerSchema, answer);
+    if (!success) throw error;
+
+    const existingIp = await this.answerRepo.getIpByOriginIp(data.origin_ip);
+    if (existingIp) {
+      throw new AppError(
+        "This IP already submitted an answer for this survey",
+        403,
+      );
+    }
+
     const referencedSurvey = await this.surveyRepo.getBySlug(slug);
 
-    const serializedData = this.validateAnswerCreation(
-      referencedSurvey,
-      answer,
-    );
+    const serializedData = this.validateAnswerCreation(referencedSurvey, data);
+
+    const id = v7();
 
     return await this.answerRepo.createOne({
-      survey_id: Number(referencedSurvey.id),
+      id,
+      survey_id: referencedSurvey.id,
       ...serializedData,
     });
   }
 
-  async deleteById(id: number) {
+  async deleteById(id: string) {
     await this.answerRepo.deleteById(id);
   }
 
   validateAnswerCreation(survey: Survey, answer: Answer) {
-    const {
-      success,
-      error,
-      data: serializedData,
-    } = z.safeParse(createAnswerSchema, answer);
-    if (!success) throw error;
-
-    const responses: Response[] = serializedData.responses;
+    const responses: Response[] = answer.responses;
     const questions: Question[] = survey.questions;
     const requiredQuestions = questions.filter((q) => q.is_required);
     const responseIdArr = responses.map((r) => r.id);
@@ -135,6 +140,6 @@ export default class AnswerService implements IAnswerService {
       throw new AppError(message, 400);
     }
 
-    return serializedData;
+    return answer;
   }
 }

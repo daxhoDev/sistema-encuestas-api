@@ -18,8 +18,8 @@ export default class AnswerController {
   }
 
   async getById(req: Request, res: Response) {
-    const id = Number(req.params.id);
-    const answer = await this.service.getById(id);
+    const id = req.params.id;
+    const answer = await this.service.getById(id as string);
 
     res
       .type("json")
@@ -44,8 +44,8 @@ export default class AnswerController {
   }
 
   async deleteById(req: Request, res: Response) {
-    const id = Number(req.params.id);
-    await this.service.deleteById(id);
+    const id = req.params.id;
+    await this.service.deleteById(id as string);
 
     res
       .type("json")
