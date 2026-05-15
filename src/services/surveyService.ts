@@ -53,10 +53,17 @@ export default class SurveyService implements ISurveyService {
   }
 
   async updateOneBySlug(slug: string, data: Survey) {
-    const surveyExists = await this.repo.getSlugBySlug(slug);
+    const existingSurvey = await this.repo.getActivatedAtBySlug(slug);
 
-    if (!surveyExists) {
+    if (!existingSurvey) {
       throw new AppError("Survey not found", 404);
+    }
+
+    if (existingSurvey.activated_at) {
+      throw new AppError(
+        "This survey was already activated, it can't be modified anymore",
+        403,
+      );
     }
 
     const {

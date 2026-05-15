@@ -17,6 +17,7 @@ export interface ISurveyRepository {
   deleteOneBySlug: (slug: string) => Promise<any>;
   updateOneBySlug: (slug: string, data: any) => Promise<any>;
   getSlugBySlug: (slug: string) => Promise<any>;
+  getActivatedAtBySlug: (slug: string) => Promise<any>;
 }
 export interface ISurveyService extends Partial<ISurveyRepository> {}
 
