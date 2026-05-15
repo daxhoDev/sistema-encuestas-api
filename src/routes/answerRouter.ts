@@ -12,12 +12,12 @@ const answerController = new AnswerController(answerService);
 
 router
   .route("/")
-  .get(answerController.getAllFromSurvey)
-  .post(answerController.createOne);
+  .get(answerController.getAllFromSurvey.bind(answerController))
+  .post(answerController.createOne.bind(answerController));
 
 router
   .route("/:id")
-  .get(answerController.getById)
-  .delete(answerController.deleteById);
+  .get(answerController.getById.bind(answerController))
+  .delete(answerController.deleteById.bind(answerController));
 
 export default router;

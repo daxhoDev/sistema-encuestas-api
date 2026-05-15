@@ -17,12 +17,15 @@ router.use("/:slug/answers", answerRouter);
 
 router
   .route("/")
-  .get(urlController.validateQueryStrings, surveyController.getAll)
+  .get(
+    urlController.validateQueryStrings.bind(urlController),
+    surveyController.getAll.bind(surveyController),
+  )
   .post(surveyController.createOne);
 
 router
   .route("/:slug/")
-  .get(surveyController.getBySlug)
-  .delete(surveyController.deleteOneBySlug);
+  .get(surveyController.getBySlug.bind(surveyController))
+  .delete(surveyController.deleteOneBySlug.bind(surveyController));
 
 export default router;
