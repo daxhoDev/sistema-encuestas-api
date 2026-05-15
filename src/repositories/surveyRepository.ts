@@ -37,6 +37,9 @@ export default class SurveyRepository implements ISurveyRepository {
       where,
       take: limit ? limit : this.defaultTake,
       skip: page ? (page - 1) * this.defaultTake : this.defaultSkip,
+      orderBy: {
+        created_at: "desc",
+      },
     });
   }
 

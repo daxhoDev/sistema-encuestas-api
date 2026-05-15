@@ -1,6 +1,9 @@
 import z from "zod";
 import type { surveysCreateInput } from "../generated/prisma/models.js";
-import { createSurveySchema } from "../schemas/surveySchema.js";
+import {
+  createSurveySchema,
+  updateSurveySchema,
+} from "../schemas/surveySchema.js";
 import type {
   ISurveyRepository,
   ISurveyService,
@@ -30,9 +33,9 @@ export default class SurveyService implements ISurveyService {
     if (!result.success) throw result.error;
 
     const slug = slugify(survey.name, { lower: true, strict: true });
-    const surveyExists = await this.repo.getBySlug(slug);
+    const slugExists = await this.repo.getBySlug(slug);
 
-    if (surveyExists) {
+    if (slugExists) {
       throw new AppError(`This survey name is not avaliable`, 400);
     }
 
@@ -49,11 +52,22 @@ export default class SurveyService implements ISurveyService {
       success,
       data: serializedData,
       error,
-    } = z.safeParse(createSurveySchema, data);
+    } = z.safeParse(updateSurveySchema, data);
 
-    if (error) throw error;
+    if (!success) throw error;
 
-    const newSlug = slugify(serializedData.name, { lower: true, strict: true });
+    const newSlug = serializedData.name
+      ? slugify(serializedData.name, { lower: true, strict: true })
+      : slug;
+
+    let slugExists = false;
+    if (slug !== newSlug) {
+      slugExists = await this.repo.getBySlug(newSlug);
+    }
+
+    if (slugExists) {
+      throw new AppError(`This survey name is not avaliable`, 400);
+    }
 
     return await this.repo.updateOneBySlug(slug, {
       ...serializedData,

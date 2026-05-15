@@ -1,6 +1,11 @@
 import { z } from "zod";
 
-export const questionSchema = z.object(
+const surveyNameSchema = z
+  .string("Survey name must be a string")
+  .nonempty("Survey name can't be empty")
+  .min(5, "Survey name is too short");
+
+export const questionSchema = z.strictObject(
   {
     id: z
       .number("question.id must be an integer")
@@ -36,23 +41,33 @@ export const questionSchema = z.object(
       .optional(),
     is_required: z.boolean("is_required must be a boolean"),
   },
-  "Each question must be an object",
+  "Invalid question format",
 );
 
-export const createSurveySchema = z.object({
-  name: z
-    .string("Survey name must be a string")
-    .nonempty("Survey name can't be empty")
-    .min(5, "Survey name is too short"),
-  questions: z
-    .array(
-      questionSchema.refine((data) => {
-        if (data.type === "SINGLE_SELECT" || data.type === "MULTI_SELECT") {
-          return data.options;
-        }
-        return !data.options;
-      }, "If question type is a SELECT type there must be options"),
-      { error: "Questions must be an array" },
-    )
-    .nonempty("Questions array can't be empty"),
-});
+const questionArrSchema = z
+  .array(
+    questionSchema.refine((data) => {
+      if (data.type === "SINGLE_SELECT" || data.type === "MULTI_SELECT") {
+        return data.options;
+      }
+      return !data.options;
+    }, "If question type is a SELECT type there must be options"),
+    { error: "Questions must be an array" },
+  )
+  .nonempty("Questions array can't be empty");
+
+export const createSurveySchema = z.strictObject(
+  {
+    name: surveyNameSchema,
+    questions: questionArrSchema,
+  },
+  "Invalid format",
+);
+
+export const updateSurveySchema = z.strictObject(
+  {
+    name: surveyNameSchema.optional(),
+    questions: questionArrSchema.optional(),
+  },
+  "Invalid format",
+);
