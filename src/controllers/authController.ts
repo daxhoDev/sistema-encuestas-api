@@ -33,6 +33,10 @@ export default class AuthController {
       .cookie("jwt", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production" ? true : false,
+        expires: new Date(
+          Date.now() +
+            Number(process.env.JWT_COOKIE_EXPIRES_IN) * 24 * 60 * 60 * 1000,
+        ),
       })
       .status(200)
       .type("json")

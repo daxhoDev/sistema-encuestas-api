@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
 import AppError from "../utils/appError.js";
-import { ZodError } from "zod";
+import z, { ZodError } from "zod";
 import { type TokenExpiredError } from "jsonwebtoken";
 
 export class ErrorController {
@@ -8,7 +8,11 @@ export class ErrorController {
     const message = Array.from(new Set(err.issues.map((i) => i.message))).join(
       ". ",
     );
-    return new AppError(message, 400);
+
+    console.log(err.issues);
+
+    const statusCode = err.issues[0]?.format === "jwt" ? 401 : 400;
+    return new AppError(message, statusCode);
   }
 
   handleJwtExpiredError(err: TokenExpiredError) {
@@ -32,8 +36,8 @@ export class ErrorController {
       err = this.handleJwtExpiredError(err);
     }
 
+    console.error("ERROR 💥", err);
     if (process.env.NODE_ENV === "development") {
-      console.log(err);
       this.sendErrorDev(err, res);
     } else if (process.env.NODE_ENV === "production") {
       this.sendErrorProd(err, res);
@@ -56,7 +60,6 @@ export class ErrorController {
         message: err.message,
       });
     }
-    console.error("ERROR 💥", err);
     res.status(500).json({
       status: "error",
       message: "Something went very wrong",

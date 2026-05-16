@@ -7,13 +7,13 @@ import type { ProtectedRequest } from "../types.js";
 
 export default class AuthMiddleware {
   async protect(req: ProtectedRequest, res: Response, next: NextFunction) {
-    const { jwt } = req.cookies;
+    const { jwt: token } = req.cookies;
 
-    if (!jwt) {
+    if (!token) {
       throw new AppError("Please, log in first", 401);
     }
 
-    const { success, data: validToken, error } = z.safeParse(jwtSchema, jwt);
+    const { success, data: validToken, error } = z.safeParse(jwtSchema, token);
     if (!success) {
       throw error;
     }
