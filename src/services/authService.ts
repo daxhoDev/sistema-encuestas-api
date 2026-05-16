@@ -73,7 +73,7 @@ export default class AuthService implements IAuthService {
     );
 
     if (!passwordIsCorrect) {
-      throw new AppError("Incorrect password", 403);
+      throw new AppError("Incorrect password", 401);
     }
 
     const token = this.createSignedJwt(user.id, user.email, user.username);

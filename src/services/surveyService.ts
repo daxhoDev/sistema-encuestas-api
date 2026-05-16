@@ -64,7 +64,7 @@ export default class SurveyService implements ISurveyService {
     if (existingSurvey.activated_at) {
       throw new AppError(
         "This survey was already activated, it can't be modified anymore",
-        403,
+        400,
       );
     }
 

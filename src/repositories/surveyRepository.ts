@@ -1,4 +1,7 @@
-import type { surveysCreateInput } from "../generated/prisma/models.js";
+import type {
+  surveysCreateInput,
+  surveysOrderByWithRelationInput,
+} from "../generated/prisma/models.js";
 import { prisma } from "../lib/prisma.js";
 import type { ISurveyRepository, QueryString, Survey } from "../types.js";
 
@@ -11,10 +14,10 @@ export default class SurveyRepository implements ISurveyRepository {
       deleted_at: null,
     };
 
-    const orderBy: any = {
-      created_at: sort === "creation" ? "asc" : "desc",
-      name: sort === "-name" ? "desc" : "asc",
-    };
+    const orderBy: surveysOrderByWithRelationInput[] = [
+      { created_at: sort === "creation" ? "asc" : "desc" },
+      { name: sort === "-name" ? "desc" : "asc" },
+    ];
 
     if (search) {
       where.name = {
