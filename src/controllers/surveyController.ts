@@ -12,9 +12,6 @@ export default class SurveyController {
 
   async getAll(req: QueryStringRequest, res: Response, next: NextFunction) {
     const queries = req.queryData;
-    console.log(req.queryData);
-
-    console.log(req.user);
 
     const surveys = await this.service.getAll(queries as QueryString);
     res

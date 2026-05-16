@@ -1,16 +1,18 @@
 import type { NextFunction, Request, Response } from "express";
 import AppError from "../utils/appError.js";
 import { ZodError } from "zod";
-import {
-  PrismaClientKnownRequestError,
-  PrismaClientValidationError,
-} from "@prisma/client/runtime/client";
+import { type TokenExpiredError } from "jsonwebtoken";
 
 export class ErrorController {
   handleZodError(err: ZodError) {
     const message = Array.from(new Set(err.issues.map((i) => i.message))).join(
       ". ",
     );
+    return new AppError(message, 400);
+  }
+
+  handleJwtExpiredError(err: TokenExpiredError) {
+    const message = `This token expired at ${err.expiredAt}, please log in again`;
     return new AppError(message, 400);
   }
 
@@ -25,6 +27,9 @@ export class ErrorController {
 
     if (err instanceof ZodError) {
       err = this.handleZodError(err);
+    }
+    if (err.name === "TokenExpiredError") {
+      err = this.handleJwtExpiredError(err);
     }
 
     if (process.env.NODE_ENV === "development") {

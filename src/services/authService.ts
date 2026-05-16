@@ -37,25 +37,18 @@ export default class AuthService implements IAuthService {
     const id = v7();
     const encryptedPassword = await bcrypt.hash(validData.password, 10);
 
-    const token = jwt.sign(
-      {
-        email: validData.email,
-        username: validData.username,
-      },
-      process.env.JWT_SECRET as string,
-      {
-        expiresIn: 1000 * 60 * 10,
-      },
-    );
-
     const user = await this.repo.createOne({
       id,
       email: validData.email,
       username: validData.username,
       password: encryptedPassword,
     });
+    const token = this.createSignedJwt(id, validData.email, validData.username);
 
-    return { user, token };
+    return {
+      user: { id: user.id, username: user.username, email: user.email },
+      token,
+    };
   }
 
   async login(data: LoginData) {
@@ -83,22 +76,35 @@ export default class AuthService implements IAuthService {
       throw new AppError("Incorrect password", 403);
     }
 
-    const token = jwt.sign(
-      {
-        email: user.email,
-        username: user.username,
-      },
-      process.env.JWT_SECRET as string,
-      {
-        expiresIn: 1000 * 60 * 10,
-      },
-    );
+    const token = this.createSignedJwt(user.id, user.email, user.username);
 
-    return token;
+    return {
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+      },
+      token,
+    };
   }
 
   async comparePassword(candidatePassword: string, correctPassword: string) {
     const isCorrect = await bcrypt.compare(candidatePassword, correctPassword);
     return isCorrect;
+  }
+
+  createSignedJwt(id: string, email: string, username: string) {
+    const token = jwt.sign(
+      {
+        id,
+        email,
+        username,
+      },
+      process.env.JWT_SECRET as string,
+      {
+        expiresIn: process.env.JWT_EXPIRES_IN,
+      },
+    );
+    return token;
   }
 }

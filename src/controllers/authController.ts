@@ -1,40 +1,46 @@
 import type { Request, Response } from "express";
 import type { IAuthService } from "../types.js";
 import { json } from "../utils/json.js";
+import type { Jwt } from "jsonwebtoken";
 
 export default class AuthController {
   constructor(private service: IAuthService) {}
 
   async signup(req: Request, res: Response) {
     const userData = req.body;
-    const result = await this.service.signup(userData);
-
-    res
-      .cookie("token", result.token, { httpOnly: true })
-      .status(200)
-      .type("json")
-      .send(
-        json({
-          status: "success",
-          data: result.user,
-        }),
-      );
+    const { user, token } = await this.service.signup(userData);
+    this.sendTokenAndUser(res, user, token);
   }
 
   async login(req: Request, res: Response) {
     const userData = req.body;
-    const token = await this.service.login(userData);
+    const { user, token } = await this.service.login(userData);
+    this.sendTokenAndUser(res, user, token);
+  }
 
+  async logout(req: Request, res: Response) {
     res
-      .cookie("token", token, {
+      .cookie("jwt", "loggedout", {
+        expires: new Date(Date.now()),
         httpOnly: true,
+      })
+      .status(200)
+      .json({ status: "success" });
+  }
+
+  sendTokenAndUser(res: Response, user: any, token: string) {
+    res
+      .cookie("jwt", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production" ? true : false,
       })
       .status(200)
       .type("json")
       .send(
         json({
           status: "success",
-          data: token,
+          token,
+          data: { user },
         }),
       );
   }
