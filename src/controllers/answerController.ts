@@ -28,6 +28,7 @@ export default class AnswerController {
   }
 
   async createOne(req: Request, res: Response) {
+    const originIp = req.ip;
     const createdAnswer = await this.service.createOne(
       req.body,
       req.params.slug as string,

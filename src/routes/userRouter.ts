@@ -2,6 +2,7 @@ import { Router } from "express";
 import AuthController from "../controllers/authController.js";
 import AuthService from "../services/authService.js";
 import UserRepository from "../repositories/userRepository.js";
+import rateLimit from "express-rate-limit";
 
 const router: Router = Router();
 const userRepo = new UserRepository();
