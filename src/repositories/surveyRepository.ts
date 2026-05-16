@@ -6,9 +6,14 @@ export default class SurveyRepository implements ISurveyRepository {
   defaultTake = 10;
   defaultSkip = 0;
 
-  async getAll({ search, active, date, page, limit }: QueryString) {
+  async getAll({ search, active, date, page, limit, sort }: QueryString) {
     const where: any = {
       deleted_at: null,
+    };
+
+    const orderBy: any = {
+      created_at: sort === "creation" ? "asc" : "desc",
+      name: sort === "-name" ? "desc" : "asc",
     };
 
     if (search) {
@@ -37,9 +42,7 @@ export default class SurveyRepository implements ISurveyRepository {
       where,
       take: limit ? limit : this.defaultTake,
       skip: page ? (page - 1) * this.defaultTake : this.defaultSkip,
-      orderBy: {
-        created_at: "desc",
-      },
+      orderBy,
     });
   }
 

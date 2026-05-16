@@ -36,6 +36,12 @@ export const queryStringSchema = z.strictObject(
       )
       .transform((value) => Number(value))
       .optional(),
+    sort: z
+      .enum(
+        ["name", "-name", "creation", "-creation"],
+        "Query string 'createdAt' value must be either 'name', '-name', 'creation' or '-creation'",
+      )
+      .optional(),
   },
   "Allowed queries at url: 'active', 'date', 'search' and 'page'",
 );
