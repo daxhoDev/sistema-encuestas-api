@@ -9,7 +9,10 @@ import type {
   createAnswerSchema,
   responseSchema,
 } from "./schemas/answerSchema.js";
-import type { createUserSchema } from "./schemas/userSchema.js";
+import type {
+  createUserSchema,
+  loginDataSchema,
+} from "./schemas/userSchema.js";
 import type SurveyRepository from "./repositories/surveyRepository.js";
 
 export interface ISurveyRepository {
@@ -45,10 +48,20 @@ export interface IAnswerService {
 
 export interface IUserRepository {
   createOne: (data: {
+    id: string;
     email: string;
     username: string;
     password: string;
-  }) => Promise<void>;
+  }) => Promise<any>;
+
+  getByEmail: (email: string) => Promise<any>;
+  getByUsername: (username: string) => Promise<any>;
+}
+
+export interface IAuthService {
+  signup: (data: User) => Promise<any>;
+  login: Function;
+  comparePassword: Function;
 }
 
 export type Survey = z.infer<typeof createSurveySchema>;
@@ -61,6 +74,12 @@ export type User = z.infer<typeof createUserSchema>;
 
 export type QueryString = z.infer<typeof queryStringSchema>;
 
+export interface ProtectedRequest extends Request {
+  user?: { username: string; email: string };
+}
+
 export interface QueryStringRequest extends Request {
   queryData?: QueryString;
 }
+
+export type LoginData = z.infer<typeof loginDataSchema>;

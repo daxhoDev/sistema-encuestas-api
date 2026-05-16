@@ -2,6 +2,7 @@ import type { NextFunction, Request, Response } from "express";
 import { json } from "../utils/json.js";
 import type {
   ISurveyService,
+  ProtectedRequest,
   QueryString,
   QueryStringRequest,
 } from "../types.js";
@@ -12,6 +13,8 @@ export default class SurveyController {
   async getAll(req: QueryStringRequest, res: Response, next: NextFunction) {
     const queries = req.queryData;
     console.log(req.queryData);
+
+    console.log(req.user);
 
     const surveys = await this.service.getAll(queries as QueryString);
     res
@@ -39,8 +42,8 @@ export default class SurveyController {
       );
   }
 
-  async createOne(req: Request, res: Response, next: NextFunction) {
-    console.log(this);
+  async createOne(req: ProtectedRequest, res: Response, next: NextFunction) {
+    console.log(req.user);
     const createdSurvey = await this.service.createOne(req.body);
     res
       .type("json")

@@ -696,6 +696,7 @@ export type SurveysScalarFieldEnum = (typeof SurveysScalarFieldEnum)[keyof typeo
 
 export const UsersScalarFieldEnum = {
   id: 'id',
+  username: 'username',
   email: 'email',
   password: 'password',
   created_at: 'created_at',
