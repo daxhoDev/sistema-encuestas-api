@@ -102,7 +102,7 @@ export default class AuthService implements IAuthService {
       },
       process.env.JWT_SECRET as string,
       {
-        expiresIn: process.env.JWT_EXPIRES_IN,
+        expiresIn: process.env.JWT_EXPIRES_IN as string,
       },
     );
     return token;
