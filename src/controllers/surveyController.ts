@@ -1,19 +1,19 @@
 import type { NextFunction, Request, Response } from "express";
 import { json } from "../utils/json.js";
-import type {
-  ISurveyService,
-  ProtectedRequest,
-  QueryString,
-  QueryStringRequest,
-} from "../types.js";
+import type { ISurveyService, ProtectedRequest } from "../types.js";
+import { queryStringSchema } from "../schemas/queryStringsSchema.js";
+import z from "zod";
 
 export default class SurveyController {
   constructor(private service: ISurveyService) {}
 
-  async getAll(req: QueryStringRequest, res: Response, next: NextFunction) {
-    const queries = req.queryData;
+  async getAll(req: Request, res: Response, next: NextFunction) {
+    const { success, data, error } = z.safeParse(queryStringSchema, req.query);
+    if (!success) throw error;
 
-    const surveys = await this.service.getAll(queries as QueryString);
+    const queries = data;
+
+    const surveys = await this.service.getAll(queries);
     res
       .type("json")
       .status(200)

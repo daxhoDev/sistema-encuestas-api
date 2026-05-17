@@ -3,7 +3,7 @@ import AppError from "../utils/appError.js";
 import z, { ZodError } from "zod";
 import { type TokenExpiredError } from "jsonwebtoken";
 
-export class ErrorController {
+export class ErrorMiddleware {
   handleZodError(err: ZodError) {
     const message = Array.from(new Set(err.issues.map((i) => i.message))).join(
       ". ",
@@ -20,7 +20,7 @@ export class ErrorController {
     return new AppError(message, 400);
   }
 
-  globalErrorHandler = (
+  handleGlobalError = (
     err: any,
     _req: Request,
     res: Response,

@@ -78,8 +78,4 @@ export interface ProtectedRequest extends Request {
   user?: { username: string; email: string };
 }
 
-export interface QueryStringRequest extends Request {
-  queryData?: QueryString;
-}
-
 export type LoginData = z.infer<typeof loginDataSchema>;

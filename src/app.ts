@@ -1,15 +1,13 @@
 import express, { type Express, type Request, type Response } from "express";
 import surveyRouter from "./routes/surveyRouter.js";
 import userRouter from "./routes/userRouter.js";
-import { ErrorController } from "./controllers/errorController.js";
+import { ErrorMiddleware } from "./middlewares/errorMiddleware.js";
 import cookieParser from "cookie-parser";
 import AppError from "./utils/appError.js";
-import rateLimit from "express-rate-limit";
-import { json } from "./utils/json.js";
 import limiter from "./utils/limiter.js";
 
 const app: Express = express();
-const errorController = new ErrorController();
+const errorMiddleware = new ErrorMiddleware();
 
 app.use(express.json());
 app.use(cookieParser());
@@ -26,6 +24,6 @@ app.all("/*splat", (req: Request, res: Response) => {
   );
 });
 
-app.use(errorController.globalErrorHandler);
+app.use(errorMiddleware.handleGlobalError);
 
 export default app;
