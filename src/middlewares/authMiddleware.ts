@@ -3,7 +3,7 @@ import AppError from "../utils/appError.js";
 import jwt from "jsonwebtoken";
 import z from "zod";
 import { jwtSchema } from "../schemas/authSchema.js";
-import type { ProtectedRequest } from "../types.js";
+import type { ProtectedRequest, UserPayload } from "../types.js";
 
 export default class AuthMiddleware {
   async protect(req: ProtectedRequest, res: Response, next: NextFunction) {
@@ -18,16 +18,16 @@ export default class AuthMiddleware {
       throw error;
     }
 
-    const decoded = jwt.verify(validToken, process.env.JWT_SECRET as string);
-    console.log(decoded);
+    const decoded = jwt.verify(
+      validToken,
+      process.env.JWT_SECRET as string,
+    ) as UserPayload;
 
     const userInfo = {
       id: decoded.id,
       username: decoded.username,
       email: decoded.email,
     };
-
-    console.log(userInfo);
 
     req.user = userInfo;
 

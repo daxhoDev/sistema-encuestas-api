@@ -116,11 +116,12 @@ export type UserWithToken = {
   user: UserWithoutPassword;
   token: string;
 };
+export type UserPayload = Pick<User, "id" | "username" | "email">;
 
 export type QueryString = z.infer<typeof queryStringSchema>;
 
 export interface ProtectedRequest extends Request {
-  user?: Pick<User, "id" | "username" | "email">;
+  user?: UserPayload;
 }
 
 export type LoginData = z.infer<typeof loginDataSchema>;
