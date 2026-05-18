@@ -154,7 +154,7 @@ export type AnswersGroupByOutputType = {
   survey_id: string | null
   responses: runtime.JsonValue
   origin_ip: string
-  created_at: Date | null
+  created_at: Date
   deleted_at: Date | null
   _count: AnswersCountAggregateOutputType | null
   _min: AnswersMinAggregateOutputType | null
@@ -184,7 +184,7 @@ export type answersWhereInput = {
   survey_id?: Prisma.UuidNullableFilter<"answers"> | string | null
   responses?: Prisma.JsonFilter<"answers">
   origin_ip?: Prisma.StringFilter<"answers"> | string
-  created_at?: Prisma.DateTimeNullableFilter<"answers"> | Date | string | null
+  created_at?: Prisma.DateTimeFilter<"answers"> | Date | string
   deleted_at?: Prisma.DateTimeNullableFilter<"answers"> | Date | string | null
   surveys?: Prisma.XOR<Prisma.SurveysNullableScalarRelationFilter, Prisma.surveysWhereInput> | null
 }
@@ -194,7 +194,7 @@ export type answersOrderByWithRelationInput = {
   survey_id?: Prisma.SortOrderInput | Prisma.SortOrder
   responses?: Prisma.SortOrder
   origin_ip?: Prisma.SortOrder
-  created_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
   surveys?: Prisma.surveysOrderByWithRelationInput
 }
@@ -207,7 +207,7 @@ export type answersWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.answersWhereInput | Prisma.answersWhereInput[]
   survey_id?: Prisma.UuidNullableFilter<"answers"> | string | null
   responses?: Prisma.JsonFilter<"answers">
-  created_at?: Prisma.DateTimeNullableFilter<"answers"> | Date | string | null
+  created_at?: Prisma.DateTimeFilter<"answers"> | Date | string
   deleted_at?: Prisma.DateTimeNullableFilter<"answers"> | Date | string | null
   surveys?: Prisma.XOR<Prisma.SurveysNullableScalarRelationFilter, Prisma.surveysWhereInput> | null
 }, "id" | "origin_ip">
@@ -217,7 +217,7 @@ export type answersOrderByWithAggregationInput = {
   survey_id?: Prisma.SortOrderInput | Prisma.SortOrder
   responses?: Prisma.SortOrder
   origin_ip?: Prisma.SortOrder
-  created_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.answersCountOrderByAggregateInput
   _max?: Prisma.answersMaxOrderByAggregateInput
@@ -232,7 +232,7 @@ export type answersScalarWhereWithAggregatesInput = {
   survey_id?: Prisma.UuidNullableWithAggregatesFilter<"answers"> | string | null
   responses?: Prisma.JsonWithAggregatesFilter<"answers">
   origin_ip?: Prisma.StringWithAggregatesFilter<"answers"> | string
-  created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"answers"> | Date | string | null
+  created_at?: Prisma.DateTimeWithAggregatesFilter<"answers"> | Date | string
   deleted_at?: Prisma.DateTimeNullableWithAggregatesFilter<"answers"> | Date | string | null
 }
 
@@ -240,7 +240,7 @@ export type answersCreateInput = {
   id: string
   responses: Prisma.JsonNullValueInput | runtime.InputJsonValue
   origin_ip: string
-  created_at?: Date | string | null
+  created_at?: Date | string
   deleted_at?: Date | string | null
   surveys?: Prisma.surveysCreateNestedOneWithoutAnswersInput
 }
@@ -250,7 +250,7 @@ export type answersUncheckedCreateInput = {
   survey_id?: string | null
   responses: Prisma.JsonNullValueInput | runtime.InputJsonValue
   origin_ip: string
-  created_at?: Date | string | null
+  created_at?: Date | string
   deleted_at?: Date | string | null
 }
 
@@ -258,7 +258,7 @@ export type answersUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   responses?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   origin_ip?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   surveys?: Prisma.surveysUpdateOneWithoutAnswersNestedInput
 }
@@ -268,7 +268,7 @@ export type answersUncheckedUpdateInput = {
   survey_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   responses?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   origin_ip?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
@@ -277,7 +277,7 @@ export type answersCreateManyInput = {
   survey_id?: string | null
   responses: Prisma.JsonNullValueInput | runtime.InputJsonValue
   origin_ip: string
-  created_at?: Date | string | null
+  created_at?: Date | string
   deleted_at?: Date | string | null
 }
 
@@ -285,7 +285,7 @@ export type answersUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   responses?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   origin_ip?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
@@ -294,7 +294,7 @@ export type answersUncheckedUpdateManyInput = {
   survey_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   responses?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   origin_ip?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
@@ -335,6 +335,10 @@ export type answersOrderByRelationAggregateInput = {
 
 export type StringFieldUpdateOperationsInput = {
   set?: string
+}
+
+export type DateTimeFieldUpdateOperationsInput = {
+  set?: Date | string
 }
 
 export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -391,7 +395,7 @@ export type answersCreateWithoutSurveysInput = {
   id: string
   responses: Prisma.JsonNullValueInput | runtime.InputJsonValue
   origin_ip: string
-  created_at?: Date | string | null
+  created_at?: Date | string
   deleted_at?: Date | string | null
 }
 
@@ -399,7 +403,7 @@ export type answersUncheckedCreateWithoutSurveysInput = {
   id: string
   responses: Prisma.JsonNullValueInput | runtime.InputJsonValue
   origin_ip: string
-  created_at?: Date | string | null
+  created_at?: Date | string
   deleted_at?: Date | string | null
 }
 
@@ -437,7 +441,7 @@ export type answersScalarWhereInput = {
   survey_id?: Prisma.UuidNullableFilter<"answers"> | string | null
   responses?: Prisma.JsonFilter<"answers">
   origin_ip?: Prisma.StringFilter<"answers"> | string
-  created_at?: Prisma.DateTimeNullableFilter<"answers"> | Date | string | null
+  created_at?: Prisma.DateTimeFilter<"answers"> | Date | string
   deleted_at?: Prisma.DateTimeNullableFilter<"answers"> | Date | string | null
 }
 
@@ -445,7 +449,7 @@ export type answersCreateManySurveysInput = {
   id: string
   responses: Prisma.JsonNullValueInput | runtime.InputJsonValue
   origin_ip: string
-  created_at?: Date | string | null
+  created_at?: Date | string
   deleted_at?: Date | string | null
 }
 
@@ -453,7 +457,7 @@ export type answersUpdateWithoutSurveysInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   responses?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   origin_ip?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
@@ -461,7 +465,7 @@ export type answersUncheckedUpdateWithoutSurveysInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   responses?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   origin_ip?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
@@ -469,7 +473,7 @@ export type answersUncheckedUpdateManyWithoutSurveysInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   responses?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   origin_ip?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
@@ -535,7 +539,7 @@ export type $answersPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     survey_id: string | null
     responses: runtime.JsonValue
     origin_ip: string
-    created_at: Date | null
+    created_at: Date
     deleted_at: Date | null
   }, ExtArgs["result"]["answers"]>
   composites: {}

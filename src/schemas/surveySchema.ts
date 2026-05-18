@@ -39,7 +39,7 @@ export const questionSchema = z.strictObject(
       )
       .nonempty(`An options array can't be empty`)
       .optional(),
-    is_required: z.boolean("is_required must be a boolean"),
+    isRequired: z.boolean("is_required must be a boolean"),
   },
   "Invalid question format",
 );
@@ -67,5 +67,5 @@ export const createSurveySchema = z.strictObject(
 export const updateSurveySchema = z.object({
   name: surveyNameSchema.optional(),
   questions: questionArrSchema.optional(),
-  is_active: z.boolean("is_active must be a boolean").optional(),
+  isActive: z.boolean("is_active must be a boolean").optional(),
 });

@@ -18,12 +18,18 @@ export default class AuthMiddleware {
       throw error;
     }
 
-    const decoded = jwt.verify(
-      validToken,
-      process.env.JWT_SECRET as string,
-    ) as { username: string; email: string };
+    const decoded = jwt.verify(validToken, process.env.JWT_SECRET as string);
+    console.log(decoded);
 
-    req.user = decoded;
+    const userInfo = {
+      id: decoded.id,
+      username: decoded.username,
+      email: decoded.email,
+    };
+
+    console.log(userInfo);
+
+    req.user = userInfo;
 
     next();
   }

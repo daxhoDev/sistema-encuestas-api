@@ -172,7 +172,7 @@ export type SurveysGroupByOutputType = {
   name: string
   questions: runtime.JsonValue
   is_active: boolean
-  created_at: Date | null
+  created_at: Date
   deleted_at: Date | null
   slug: string
   updated_at: Date | null
@@ -205,7 +205,7 @@ export type surveysWhereInput = {
   name?: Prisma.StringFilter<"surveys"> | string
   questions?: Prisma.JsonFilter<"surveys">
   is_active?: Prisma.BoolFilter<"surveys"> | boolean
-  created_at?: Prisma.DateTimeNullableFilter<"surveys"> | Date | string | null
+  created_at?: Prisma.DateTimeFilter<"surveys"> | Date | string
   deleted_at?: Prisma.DateTimeNullableFilter<"surveys"> | Date | string | null
   slug?: Prisma.StringFilter<"surveys"> | string
   updated_at?: Prisma.DateTimeNullableFilter<"surveys"> | Date | string | null
@@ -218,7 +218,7 @@ export type surveysOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   questions?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
-  created_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
   slug?: Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -235,7 +235,7 @@ export type surveysWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"surveys"> | string
   questions?: Prisma.JsonFilter<"surveys">
   is_active?: Prisma.BoolFilter<"surveys"> | boolean
-  created_at?: Prisma.DateTimeNullableFilter<"surveys"> | Date | string | null
+  created_at?: Prisma.DateTimeFilter<"surveys"> | Date | string
   deleted_at?: Prisma.DateTimeNullableFilter<"surveys"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"surveys"> | Date | string | null
   activated_at?: Prisma.DateTimeNullableFilter<"surveys"> | Date | string | null
@@ -247,7 +247,7 @@ export type surveysOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   questions?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
-  created_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
   slug?: Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -265,7 +265,7 @@ export type surveysScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"surveys"> | string
   questions?: Prisma.JsonWithAggregatesFilter<"surveys">
   is_active?: Prisma.BoolWithAggregatesFilter<"surveys"> | boolean
-  created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"surveys"> | Date | string | null
+  created_at?: Prisma.DateTimeWithAggregatesFilter<"surveys"> | Date | string
   deleted_at?: Prisma.DateTimeNullableWithAggregatesFilter<"surveys"> | Date | string | null
   slug?: Prisma.StringWithAggregatesFilter<"surveys"> | string
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"surveys"> | Date | string | null
@@ -277,7 +277,7 @@ export type surveysCreateInput = {
   name: string
   questions: Prisma.JsonNullValueInput | runtime.InputJsonValue
   is_active?: boolean
-  created_at?: Date | string | null
+  created_at?: Date | string
   deleted_at?: Date | string | null
   slug: string
   updated_at?: Date | string | null
@@ -290,7 +290,7 @@ export type surveysUncheckedCreateInput = {
   name: string
   questions: Prisma.JsonNullValueInput | runtime.InputJsonValue
   is_active?: boolean
-  created_at?: Date | string | null
+  created_at?: Date | string
   deleted_at?: Date | string | null
   slug: string
   updated_at?: Date | string | null
@@ -303,7 +303,7 @@ export type surveysUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   questions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -316,7 +316,7 @@ export type surveysUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   questions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -329,7 +329,7 @@ export type surveysCreateManyInput = {
   name: string
   questions: Prisma.JsonNullValueInput | runtime.InputJsonValue
   is_active?: boolean
-  created_at?: Date | string | null
+  created_at?: Date | string
   deleted_at?: Date | string | null
   slug: string
   updated_at?: Date | string | null
@@ -341,7 +341,7 @@ export type surveysUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   questions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -353,7 +353,7 @@ export type surveysUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   questions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -424,7 +424,7 @@ export type surveysCreateWithoutAnswersInput = {
   name: string
   questions: Prisma.JsonNullValueInput | runtime.InputJsonValue
   is_active?: boolean
-  created_at?: Date | string | null
+  created_at?: Date | string
   deleted_at?: Date | string | null
   slug: string
   updated_at?: Date | string | null
@@ -436,7 +436,7 @@ export type surveysUncheckedCreateWithoutAnswersInput = {
   name: string
   questions: Prisma.JsonNullValueInput | runtime.InputJsonValue
   is_active?: boolean
-  created_at?: Date | string | null
+  created_at?: Date | string
   deleted_at?: Date | string | null
   slug: string
   updated_at?: Date | string | null
@@ -464,7 +464,7 @@ export type surveysUpdateWithoutAnswersInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   questions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -476,7 +476,7 @@ export type surveysUncheckedUpdateWithoutAnswersInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   questions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -582,7 +582,7 @@ export type $surveysPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     name: string
     questions: runtime.JsonValue
     is_active: boolean
-    created_at: Date | null
+    created_at: Date
     deleted_at: Date | null
     slug: string
     updated_at: Date | null

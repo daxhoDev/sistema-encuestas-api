@@ -42,9 +42,10 @@ export default class SurveyController {
   async createOne(req: ProtectedRequest, res: Response, next: NextFunction) {
     console.log(req.user);
     const createdSurvey = await this.service.createOne(req.body);
+
     res
       .type("json")
-      .status(200)
+      .status(201)
       .send(
         json({
           status: "success",
@@ -59,7 +60,7 @@ export default class SurveyController {
 
     res
       .type("json")
-      .status(200)
+      .status(204)
       .send(
         json({
           status: "success",
@@ -70,8 +71,8 @@ export default class SurveyController {
 
   async updateOneBySlug(req: Request, res: Response) {
     const slug = req.params.slug as string;
-    const data = req.body;
-    const updatedSurvey = await this.service.updateOneBySlug(slug, data);
+    const body = req.body;
+    const updatedSurvey = await this.service.updateOneBySlug(slug, body);
 
     res
       .type("json")

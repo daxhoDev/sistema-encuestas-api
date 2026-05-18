@@ -5,6 +5,7 @@ import {
   updateSurveySchema,
 } from "../schemas/surveySchema.js";
 import type {
+  CreateSurveySchema,
   ISurveyRepository,
   ISurveyService,
   QueryString,
@@ -17,11 +18,11 @@ import { v7 as uuidv7 } from "uuid";
 export default class SurveyService implements ISurveyService {
   constructor(private repo: ISurveyRepository) {}
 
-  async getAll(queries: QueryString) {
+  async getAll(queries: QueryString): Promise<Survey[]> {
     return await this.repo.getAll(queries);
   }
 
-  async getBySlug(slug: string) {
+  async getBySlug(slug: string): Promise<Survey> {
     const survey = await this.repo.getBySlug(slug);
     if (!survey) {
       throw new AppError(`Survey not found`, 404);
@@ -29,7 +30,9 @@ export default class SurveyService implements ISurveyService {
     return survey;
   }
 
-  async createOne(survey: surveysCreateInput) {
+  async createOne(
+    survey: CreateSurveySchema & { id: string; slug: string },
+  ): Promise<Survey> {
     const result = z.safeParse(createSurveySchema, survey);
     if (!result.success) throw result.error;
 
@@ -41,27 +44,27 @@ export default class SurveyService implements ISurveyService {
     }
 
     const id = uuidv7();
-    const serializedData = { id, slug, ...result.data };
-    await this.repo.createOne(serializedData);
+    const serializedData = { id, slug, ...result.data, gay: 2 };
+    return await this.repo.createOne(serializedData);
   }
 
-  async deleteOneBySlug(slug: string) {
+  async deleteOneBySlug(slug: string): Promise<void> {
     const surveyExists = await this.repo.getSlugBySlug(slug);
     console.log(surveyExists);
 
     if (!surveyExists) throw new AppError("Survey not found", 404);
 
-    return await this.repo.deleteOneBySlug(slug);
+    await this.repo.deleteOneBySlug(slug);
   }
 
-  async updateOneBySlug(slug: string, data: Survey) {
+  async updateOneBySlug(slug: string, data: any): Promise<Survey | null> {
     const existingSurvey = await this.repo.getActivatedAtBySlug(slug);
 
     if (!existingSurvey) {
       throw new AppError("Survey not found", 404);
     }
 
-    if (existingSurvey.activated_at) {
+    if (existingSurvey.activatedAt) {
       throw new AppError(
         "This survey was already activated, it can't be modified anymore",
         400,
@@ -73,7 +76,6 @@ export default class SurveyService implements ISurveyService {
       data: serializedData,
       error,
     } = z.safeParse(updateSurveySchema, data);
-    console.log(data, serializedData);
     if (!success) throw error;
 
     const newSlug = serializedData.name
@@ -83,7 +85,7 @@ export default class SurveyService implements ISurveyService {
     let newSlugExists = false;
 
     if (slug !== newSlug) {
-      newSlugExists = await this.repo.getSlugBySlug(newSlug);
+      newSlugExists = Boolean(await this.repo.getSlugBySlug(newSlug));
     }
 
     if (newSlugExists) {
@@ -93,8 +95,8 @@ export default class SurveyService implements ISurveyService {
     return await this.repo.updateOneBySlug(slug, {
       ...serializedData,
       slug: newSlug,
-      updated_at: new Date(),
-      activated_at: serializedData.is_active ? new Date() : null,
+      updatedAt: new Date(),
+      activatedAt: serializedData.isActive ? new Date() : null,
     });
   }
 }

@@ -4,6 +4,7 @@ import { createAnswerSchema } from "../schemas/answerSchema.js";
 import AppError from "../utils/appError.js";
 import {
   type Answer,
+  type CreateAnswerSchema,
   type IAnswerRepository,
   type IAnswerService,
   type ISurveyRepository,
@@ -19,19 +20,23 @@ export default class AnswerService implements IAnswerService {
     private surveyRepo: ISurveyRepository,
   ) {}
 
-  async getAllFromSurvey(surveySlug: string) {
+  async getAllFromSurvey(surveySlug: string): Promise<Answer[]> {
     return await this.answerRepo.getAllFromSurvey(surveySlug);
   }
 
-  async getById(id: string) {
+  async getById(
+    id: string,
+  ): Promise<
+    (Answer & { surveys: Pick<Survey, "name" | "questions"> | null }) | null
+  > {
     return await this.answerRepo.getById(id);
   }
 
-  async createOne(answer: Answer, slug: string) {
+  async createOne(answer: CreateAnswerSchema, slug: string): Promise<Answer> {
     const { success, error, data } = z.safeParse(createAnswerSchema, answer);
     if (!success) throw error;
 
-    const existingIp = await this.answerRepo.getIpByOriginIp(data.origin_ip);
+    const existingIp = await this.answerRepo.getIpByOriginIp(answer.originIp);
     if (existingIp) {
       throw new AppError(
         "This IP already submitted an answer for this survey",
@@ -41,13 +46,15 @@ export default class AnswerService implements IAnswerService {
 
     const referencedSurvey = await this.surveyRepo.getBySlug(slug);
 
+    if (!referencedSurvey) throw new AppError("Survey not found", 404);
+
     const serializedData = this.validateAnswerCreation(referencedSurvey, data);
 
     const id = v7();
 
     return await this.answerRepo.createOne({
       id,
-      survey_id: referencedSurvey.id,
+      surveyId: referencedSurvey.id,
       ...serializedData,
     });
   }
@@ -56,10 +63,13 @@ export default class AnswerService implements IAnswerService {
     await this.answerRepo.deleteById(id);
   }
 
-  validateAnswerCreation(survey: Survey, answer: Answer) {
+  validateAnswerCreation(
+    survey: Survey,
+    answer: CreateAnswerSchema,
+  ): CreateAnswerSchema {
     const responses: Response[] = answer.responses;
     const questions: Question[] = survey.questions;
-    const requiredQuestions = questions.filter((q) => q.is_required);
+    const requiredQuestions = questions.filter((q) => q.isRequired);
     const responseIdArr = responses.map((r) => r.id);
 
     // Validate correct responses array size

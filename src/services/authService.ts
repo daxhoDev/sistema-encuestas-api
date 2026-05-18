@@ -4,6 +4,8 @@ import type {
   IAuthService,
   LoginData,
   User,
+  CreateUserData,
+  UserWithToken,
 } from "../types.js";
 import { createUserSchema, loginDataSchema } from "../schemas/userSchema.js";
 import bcrypt from "bcrypt";
@@ -14,7 +16,7 @@ import jwt from "jsonwebtoken";
 export default class AuthService implements IAuthService {
   constructor(private repo: IUserRepository) {}
 
-  async signup(data: User) {
+  async signup(data: CreateUserData): Promise<UserWithToken> {
     const {
       success,
       data: validData,
@@ -29,7 +31,9 @@ export default class AuthService implements IAuthService {
     if (emailExists) {
       throw new AppError("There is already an user with this email", 400);
     }
-    const usernameExists = await this.repo.getByUsername(validData.username);
+    const usernameExists = await this.repo.getByUsernameOnly(
+      validData.username,
+    );
     if (usernameExists) {
       throw new AppError("There is already an user with this username", 400);
     }
@@ -43,15 +47,15 @@ export default class AuthService implements IAuthService {
       username: validData.username,
       password: encryptedPassword,
     });
-    const token = this.createSignedJwt(id, validData.email, validData.username);
+    const token = this.createSignedJwt(id, validData.username, validData.email);
 
     return {
-      user: { id: user.id, username: user.username, email: user.email },
+      user,
       token,
     };
   }
 
-  async login(data: LoginData) {
+  async login(data: LoginData): Promise<UserWithToken> {
     const {
       success,
       error,
@@ -63,6 +67,7 @@ export default class AuthService implements IAuthService {
     }
 
     const user = await this.repo.getByEmail(validData.email);
+
     if (!user) {
       throw new AppError("User not found", 404);
     }
@@ -76,14 +81,10 @@ export default class AuthService implements IAuthService {
       throw new AppError("Incorrect password", 401);
     }
 
-    const token = this.createSignedJwt(user.id, user.email, user.username);
+    const token = this.createSignedJwt(user.id, user.username, user.email);
 
     return {
-      user: {
-        id: user.id,
-        username: user.username,
-        email: user.email,
-      },
+      user,
       token,
     };
   }
@@ -93,12 +94,12 @@ export default class AuthService implements IAuthService {
     return isCorrect;
   }
 
-  createSignedJwt(id: string, email: string, username: string) {
+  createSignedJwt(id: string, username: string, email: string) {
     const token = jwt.sign(
       {
         id,
-        email,
         username,
+        email,
       },
       process.env.JWT_SECRET as string,
       {

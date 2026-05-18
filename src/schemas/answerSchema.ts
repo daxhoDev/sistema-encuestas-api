@@ -20,7 +20,7 @@ export const responseSchema = z.strictObject(
 export const createAnswerSchema = z.strictObject(
   {
     responses: z.array(responseSchema, "responses must be an array"),
-    origin_ip: z.ipv4("origin_ip must be a valid IP (ipv4) address"),
+    originIp: z.ipv4("origin_ip must be a valid IP (ipv4) address"),
   },
   "Invalid answer",
 );
